@@ -1,4 +1,4 @@
-export const testIntervals = [
+const testIntervalsData = [
   {
     date: '2023-09-17T13:31:02.395000+00:00',
     driver_number: 1,
