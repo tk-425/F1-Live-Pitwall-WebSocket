@@ -1,6 +1,9 @@
 // Store the latest interval data for each driver
 const latestDriverData = new Map();
 
+// Store the most recent interval groups
+let latestGroupedIntervals = [];
+
 export function updateIntervalsData(newIntervals) {
   newIntervals.forEach((driver) => {
     const existingData = latestDriverData.get(driver.driver_number);
@@ -15,7 +18,13 @@ export function updateIntervalsData(newIntervals) {
   const updatedIntervals = Array.from(latestDriverData.values());
 
   // Recompute groups with the latest driver data
-  return groupDriversByInterval(updatedIntervals);
+  latestGroupedIntervals = groupDriversByInterval(updatedIntervals);
+
+  return latestGroupedIntervals;
+}
+
+export function getLatestIntervals() {
+  return latestGroupedIntervals;
 }
 
 export function groupDriversByInterval(intervals) {
@@ -31,14 +40,18 @@ export function groupDriversByInterval(intervals) {
       currentGroup.push(driver);
     } else {
       if (currentGroup.length > 1) {
-        groups.push([...currentGroup]); // Save completed group
+        // Save completed group
+        groups.push([...currentGroup]);
       }
-      currentGroup = [driver]; // Start a new group
+
+      // Start a new group
+      currentGroup = [driver];
     }
   });
 
   if (currentGroup.length > 1) {
-    groups.push([...currentGroup]); // Save the last group if valid
+    // Save the last group if valid
+    groups.push([...currentGroup]);
   }
 
   return groups;

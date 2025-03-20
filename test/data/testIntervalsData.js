@@ -18,7 +18,7 @@ const testIntervalsData = [
   {
     date: '2023-09-17T13:31:10.395000+00:00',
     driver_number: 3,
-    gap_to_leader: 3.5,
+    gap_to_leader: 5.0,
     interval: 1.5,
     meeting_key: 1219,
     session_key: 9165,
