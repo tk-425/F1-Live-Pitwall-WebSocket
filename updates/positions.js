@@ -1,4 +1,6 @@
 const latestPositionsData = new Map();
+let latestIndexedPositions = [];
+
 export function updatePositionsData(newPosition) {
   newPosition.forEach((driver) => {
     const existingData = latestPositionsData.get(driver.driver_number);
@@ -15,11 +17,16 @@ export function updatePositionsData(newPosition) {
   );
 
   // Index positions so that position 1 is at index 0, position 2 at index 1, etc.
-  const indexedPositions = [];
+  latestIndexedPositions = [];
 
   updatedPositions.forEach((driver) => {
-    indexedPositions[driver.position - 1] = driver;
+    latestIndexedPositions[driver.position - 1] = driver;
   });
 
-  return indexedPositions;
+  return latestIndexedPositions;
+}
+
+
+export function getLatestPositions() {
+  return latestIndexedPositions;
 }
