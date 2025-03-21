@@ -1,4 +1,4 @@
-const countryFlags = {
+export const countryFlags = {
   NED: 'https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/netherlands-flag.png',
   NZL: 'https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/new-zealand-flag.png',
   GBR: 'https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/united-kingdom-flag.png',
@@ -25,5 +25,3 @@ const countryFlags = {
   QAT: 'https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/qatar-flag.png',
   UAE: 'https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/united-arab-emirates-flag.png',
 };
-
-export { countryFlags };

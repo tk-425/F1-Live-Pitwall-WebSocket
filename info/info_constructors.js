@@ -1,6 +1,6 @@
 const currentYear = new Date().getFullYear();
 
-const constructors = {
+export const constructors = {
   Alpine: {
     vehicle: `https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/${currentYear}/alpine.png`,
     logo: `https://media.formula1.com/image/upload/f_auto,c_limit,q_75,w_1320/content/dam/fom-website/2018-redesign-assets/team%20logos/alpine`,
@@ -52,5 +52,3 @@ const constructors = {
     icon: `https://media.formula1.com/content/dam/fom-website/teams/${currentYear}/williams-logo.png`,
   },
 };
-
-export { constructors };

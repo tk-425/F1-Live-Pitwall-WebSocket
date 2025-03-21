@@ -1,4 +1,4 @@
-import { countryFlags } from './info_countries.js';
+import { countryFlags } from './info_countryFlags.js';
 
 const currentYear = new Date().getFullYear();
 
@@ -15,7 +15,7 @@ export const drivers = {
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/gasly`,
   },
   7: {
-    initialize: 'DOO',
+    initial: 'DOO',
     flag: countryFlags.AUS,
     headshot:
       'https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/J/JACDOO01_Jack_Doohan/jacdoo01.png',
