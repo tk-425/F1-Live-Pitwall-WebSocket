@@ -1,6 +1,4 @@
 import { WebSocketServer } from 'ws';
-import { testPosition } from '../updates/testPosition.js';
-import { testInterval } from '../updates/testInterval.js';
 import { setupWebSocketServer } from '../../websocket/setupWebSocket.js';
 import { getTestIntervals } from '../data/testIntervalsData.js';
 import { getTestPositions } from '../data/testPositionsData.js';
@@ -11,10 +9,6 @@ export function testCreateWebSocketServer(server, port) {
   const wss = new WebSocketServer({ server });
 
   setupWebSocketServer(wss, port);
-
-  // Test intervals and positions
-  // testInterval(wss);
-  // testPosition(wss);
 
   // Fetch both intervals and positions together
   startDataUpdates(wss);
@@ -37,7 +31,7 @@ function startDataUpdates(wss, interval = 2000) {
 
       // Send updated data to WebSocket clients
       wss.clients.forEach((client) => {
-        if (client.readState === 1) {
+        if (client.readyState === 1) {
           client.send(
             JSON.stringify({
               type: 'grouped_intervals',

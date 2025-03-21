@@ -1,6 +1,6 @@
 import express from 'express';
-import { getLatestIntervals } from '../updates/intervals';
-import { getLatestPositions } from '../updates/positions';}
+import { getLatestIntervals } from '../updates/intervals.js';
+import { getLatestPositions } from '../updates/positions.js';
 
 const app = express();
 
