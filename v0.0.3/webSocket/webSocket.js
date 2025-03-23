@@ -1,7 +1,7 @@
 import { WebSocketServer } from 'ws';
 import dotenv from 'dotenv';
 import { fetchIntervals, fetchPositions } from './openf1Api.js';
-import { updateIntervalSnapshot, getLatestIntervals } from '../data/intervals.js';
+import { updateIntervalSnapshot } from '../data/intervals.js';
 import { updatePositionsData, getLatestPositions } from '../data/positions.js';
 import { mergePositionWithIntervals } from '../data/mergeDriverData.js';
 import { groupDriversByInterval } from '../data/groupIntervals.js';
@@ -25,7 +25,7 @@ export function createWebSocketServer(server, interval = 4000) {
   console.log('WebSocket server is running...');
 }
 
-function setupWebSocketServer(wss , port) {
+function setupWebSocketServer(wss, port) {
   wss.on('connection', (ws) => {
     console.log('Client connected');
 
@@ -46,6 +46,7 @@ function setupWebSocketServer(wss , port) {
 
     // Send the latest grouped intervals if available
     const latestIntervals = getLatestGroupedIntervals();
+
     if (latestIntervals.length > 0) {
       ws.send(
         JSON.stringify({
@@ -101,9 +102,11 @@ function setupWebSocketServer(wss , port) {
 
 function startDataUpdater(wss, interval) {
   setInterval(async () => {
+    // Fetch intervals & positions
     const [intervals, intervalError] = await tryCatchSync(fetchIntervals());
     const [positions, positionsError] = await tryCatchSync(fetchPositions());
 
+    // If there are any errors, return
     if (intervalError || positionsError) {
       console.error('Fetch error:', {
         intervals: intervalError?.message,
@@ -113,10 +116,23 @@ function startDataUpdater(wss, interval) {
       return;
     }
 
+    // Check for empty interval data
+    // During the practices and qualifying, 
+    // fetched intervals will be empty 
+    // but the positions will be available.
+    if (!Array.isArray(intervals) || intervals.length === 0) {
+      handleEmptyIntervals(wss, positions);
+      return;
+    }
+
+    // Update latest interval and position data
     updateIntervalSnapshot(intervals);
     updatePositionsData(positions);
 
+    // Merge interval and position data
     const merged = mergePositionWithIntervals();
+
+    // Group drivers by intervals that are within 3 seconds
     const grouped = groupDriversByInterval(merged);
 
     setLatestGroupedIntervals(grouped);
@@ -125,7 +141,41 @@ function startDataUpdater(wss, interval) {
   }, interval);
 }
 
+function handleEmptyIntervals(wss, positions) {
+  console.warn('OpenF1 returned empty intervals.');
+
+  // Clear grouped cache
+  setLatestGroupedIntervals([]);
+  // Still update positions
+  updatePositionsData(positions);
+
+  const merged = mergePositionWithIntervals();
+
+  wss.clients.forEach((client) => {
+    if (client.readyState === 1) {
+      // Send empty intervals
+      client.send(
+        JSON.stringify({
+          type: 'grouped_intervals',
+          data: [],
+        })
+      );
+
+      // Still send positions
+      client.send(
+        JSON.stringify({
+          type: 'positions_update',
+          data: merged.sort((a, b) => a.position - b.position),
+        })
+      );
+    }
+  });
+}
+
 function broadcastToClient(wss, merged, grouped) {
+  console.log('📤 Broadcasting positions:', merged.length);
+  console.log('📤 Broadcasting intervals:', grouped.length);
+
   wss.clients.forEach((client) => {
     if (client.readyState === 1) {
       client.send(

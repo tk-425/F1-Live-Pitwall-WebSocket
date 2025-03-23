@@ -18,6 +18,8 @@ export function useWebSocket(url = 'ws://localhost:3000') {
         const message = JSON.parse(event.data);
 
         if (message.type === 'grouped_intervals') {
+          console.log('📥 New grouped_intervals received:', message.data);
+
           setIntervals(message.data);
         } else if (message.type === 'positions_update') {
           setPositions(message.data);
