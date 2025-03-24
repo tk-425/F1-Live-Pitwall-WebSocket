@@ -17,6 +17,6 @@ app.get('/current-intervals', (req, res) => {
 export function startHttpServer(server, port) {
   server.on('request', app);
   console.log(
-    `HTTP server ready at http://localhost:${port}/current-intervals`
+    `📡 HTTP server ready at http://localhost:${port}/current-intervals`
   );
 }

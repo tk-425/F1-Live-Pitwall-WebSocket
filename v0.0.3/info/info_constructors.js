@@ -1,4 +1,4 @@
-const currentYear = new Date().getFullYear();
+import { currentYear } from '../utils/currentYear.js';
 
 export const constructors = {
   Alpine: {

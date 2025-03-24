@@ -13,7 +13,13 @@ export function mergePositionWithIntervals() {
     intervalMap.set(interval.driver_number, interval);
   });
 
-  const merged = positions.map((position) => {
+  const merged = mergePositionIntervalData(positions, intervalMap);
+
+  return merged.sort((a, b) => a.position < b.position);
+}
+
+function mergePositionIntervalData(positions, intervalMap) {
+  return positions.map((position) => {
     const interval = intervalMap.get(position.driver_number) || {};
     const info = drivers[position.driver_number] || {};
 
@@ -28,6 +34,4 @@ export function mergePositionWithIntervals() {
       initial: info.initial ?? '???',
     };
   });
-
-  return merged.sort((a, b) => a.position < b.position);
 }
