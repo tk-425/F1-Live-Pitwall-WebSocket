@@ -1,7 +1,6 @@
 import { countryFlags } from './info_countryFlags.js';
 import { constructors } from './info_constructors.js';
-
-const currentYear = new Date().getFullYear();
+import { currentYear } from '../utils/currentYear.js';
 
 export const drivers = {
   // Alpine

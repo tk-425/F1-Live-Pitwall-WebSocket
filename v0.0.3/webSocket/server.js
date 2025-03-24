@@ -2,6 +2,7 @@ import http from 'http';
 import dotenv from 'dotenv';
 import { createWebSocketServer } from './webSocket.js';
 import { startHttpServer } from './httpServer.js';
+import { initSessionWatcher } from '../data/sessions.js';
 
 dotenv.config();
 
@@ -14,9 +15,12 @@ const server = http.createServer();
 createWebSocketServer(server);
 startHttpServer(server, PORT);
 
+// Run session cache check every 10 min
+await initSessionWatcher();
+
 // Start listening
 server.listen(PORT, () => {
   console.log(
-    `OpenF1 WebSocket & HTTP Server is running on http://localhost:${PORT}`
+    `🛜  OpenF1 WebSocket & HTTP Server is running on http://localhost:${PORT}`
   );
 });

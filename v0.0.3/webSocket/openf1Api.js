@@ -1,23 +1,19 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
 import { tryCatchSync } from '../utils/tryCatch.js';
+import { currentYear } from '../utils/currentYear.js';
 
 dotenv.config();
 
 const INTERVALS_URL = 'https://api.openf1.org/v1/intervals?session_key=latest';
 const POSITIONS_URL = 'https://api.openf1.org/v1/position?session_key=latest';
+const SESSIONS_URL = `https://api.openf1.org/v1/sessions?year=${currentYear}`;
 const MAX_RETRIES = process.env.MAX_RETRIES || 3;
 
 // Fetch the latest data with retry logic
 async function fetchWithRetry(url, retries = MAX_RETRIES) {
   while (retries > 0) {
-    const [response, error] = await tryCatchSync(
-      axios.get(url, {
-        params: {
-          session_key: 'latest',
-        },
-      })
-    );
+    const [response, error] = await tryCatchSync(axios.get(url));
 
     if (response?.status === 200) {
       return response.data;
@@ -53,4 +49,8 @@ export async function fetchIntervals() {
 
 export async function fetchPositions() {
   return fetchWithRetry(POSITIONS_URL);
+}
+
+export async function fetchSessions() {
+  return fetchWithRetry(SESSIONS_URL);
 }

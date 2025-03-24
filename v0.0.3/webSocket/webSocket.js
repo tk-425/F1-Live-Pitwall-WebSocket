@@ -1,8 +1,9 @@
-import { WebSocketServer } from 'ws';
+import { WebSocketServer, WebSocket } from 'ws';
 import dotenv from 'dotenv';
 import { fetchIntervals, fetchPositions } from './openf1Api.js';
 import { updateIntervalSnapshot } from '../data/intervals.js';
 import { updatePositionsData, getLatestPositions } from '../data/positions.js';
+import { getLatestSession } from '../data/sessions.js';
 import { mergePositionWithIntervals } from '../data/mergeDriverData.js';
 import { groupDriversByInterval } from '../data/groupIntervals.js';
 import {
@@ -22,12 +23,12 @@ export function createWebSocketServer(server, interval = 4000) {
 
   startDataUpdater(wss, interval);
 
-  console.log('WebSocket server is running...');
+  console.log('🏃 WebSocket server is running...');
 }
 
 function setupWebSocketServer(wss, port) {
   wss.on('connection', (ws) => {
-    console.log('Client connected');
+    console.log('🔗 Client connected');
 
     // Track if the client is alive
     ws.isAlive = true;
@@ -40,51 +41,64 @@ function setupWebSocketServer(wss, port) {
     // Initial welcome message
     ws.send(
       JSON.stringify({
-        message: 'Connected to OpenF1 WebSocket Server',
+        message: '🔗 Connected to OpenF1 WebSocket Server',
       })
     );
 
     // Send the latest grouped intervals if available
     const latestIntervals = getLatestGroupedIntervals();
-
     if (latestIntervals.length > 0) {
-      ws.send(
-        JSON.stringify({
-          type: 'grouped_intervals',
-          data: latestIntervals,
-        })
-      );
+      sendData(ws, 'grouped_intervals', latestIntervals);
+      // ws.send(
+      //   JSON.stringify({
+      //     type: 'grouped_intervals',
+      //     data: latestIntervals,
+      //   })
+      // );
     }
 
     // Send latest positions if available
     const latestPositions = getLatestPositions();
     if (latestPositions.length > 0) {
-      ws.send(
-        JSON.stringify({
-          type: 'positions_update',
-          data: latestPositions,
-        })
-      );
+      sendData(ws, 'positions_update', latestPositions);
+      // ws.send(
+      //   JSON.stringify({
+      //     type: 'positions_update',
+      //     data: latestPositions,
+      //   })
+      // );
+    }
+
+    // Send session info if available
+    const session = getLatestSession();
+    if (session) {
+      sendData(ws, 'session', session);
+      // ws.send(
+      //   JSON.stringify({
+      //     type: 'session',
+      //     data: session,
+      //   })
+      // );
     }
 
     // Close the connection when the client disconnects
     ws.on('close', () => {
-      console.log('Client disconnected');
+      console.log('❌ Client disconnected');
     });
 
     // Error handling for WebSocket client
     ws.on('error', (err) => {
-      console.error('WebSocket client error:', err.message);
+      console.error('❌ WebSocket client error:', err.message);
     });
   });
 
   // Heartbeat: Ping clients every 30 seconds
   const pingInterval = setInterval(() => {
-    console.log(`Active clients: ${wss.clients.size}`);
+    console.log(`👨‍👩‍👧‍👦 Active clients: ${wss.clients.size}`);
 
     wss.clients.forEach((client) => {
       if (client.isAlive === false) {
-        console.error('No pong - terminating stale client');
+        console.error('⛔ No pong - terminating stale client');
         return client.terminate();
       }
 
@@ -97,12 +111,21 @@ function setupWebSocketServer(wss, port) {
     clearInterval(pingInterval);
   });
 
-  console.log(`WebSocket Server is running on ws://localhost:${port}`);
+  console.log(`🛜  WebSocket Server is running on ws://localhost:${port}`);
 }
 
 function startDataUpdater(wss, interval) {
   setInterval(async () => {
-    // Fetch intervals & positions
+    // Fetch session
+    const session = getLatestSession();
+    const now = new Date();
+
+    if (!session || new Date(session.date_end) < now) {
+      console.warn('No active session - skipping data fetch');
+      return;
+    }
+
+    // Fetch data
     const [intervals, intervalError] = await tryCatchSync(fetchIntervals());
     const [positions, positionsError] = await tryCatchSync(fetchPositions());
 
@@ -117,11 +140,11 @@ function startDataUpdater(wss, interval) {
     }
 
     // Check for empty interval data
-    // During the practices and qualifying, 
-    // fetched intervals will be empty 
+    // During the practices and qualifying,
+    // fetched intervals will be empty
     // but the positions will be available.
     if (!Array.isArray(intervals) || intervals.length === 0) {
-      handleEmptyIntervals(wss, positions);
+      handleEmptyIntervals(wss, positions, session);
       return;
     }
 
@@ -137,11 +160,11 @@ function startDataUpdater(wss, interval) {
 
     setLatestGroupedIntervals(grouped);
 
-    broadcastToClient(wss, merged, grouped);
+    broadcastToClient(wss, merged, grouped, session);
   }, interval);
 }
 
-function handleEmptyIntervals(wss, positions) {
+function handleEmptyIntervals(wss, positions, session) {
   console.warn('OpenF1 returned empty intervals.');
 
   // Clear grouped cache
@@ -152,45 +175,79 @@ function handleEmptyIntervals(wss, positions) {
   const merged = mergePositionWithIntervals();
 
   wss.clients.forEach((client) => {
-    if (client.readyState === 1) {
-      // Send empty intervals
-      client.send(
-        JSON.stringify({
-          type: 'grouped_intervals',
-          data: [],
-        })
+    if (client.readyState === WebSocket.OPEN) {
+      sendData(client, 'grouped_intervals', []);
+      sendData(
+        client,
+        'positions_update',
+        merged.sort((a, b) => a.position - b.position)
       );
+      sendData(client, 'session', session);
 
-      // Still send positions
-      client.send(
-        JSON.stringify({
-          type: 'positions_update',
-          data: merged.sort((a, b) => a.position - b.position),
-        })
-      );
+      // client.send(
+      //   JSON.stringify({
+      //     type: 'grouped_intervals',
+      //     data: [],
+      //   })
+      // );
+
+      // client.send(
+      //   JSON.stringify({
+      //     type: 'positions_update',
+      //     data: merged.sort((a, b) => a.position - b.position),
+      //   })
+      // );
+
+      // client.send(
+      //   JSON.stringify({
+      //     type: 'session',
+      //     data: session,
+      //   })
+      // );
     }
   });
 }
 
-function broadcastToClient(wss, merged, grouped) {
-  console.log('📤 Broadcasting positions:', merged.length);
-  console.log('📤 Broadcasting intervals:', grouped.length);
-
+function broadcastToClient(wss, merged, grouped, session) {
   wss.clients.forEach((client) => {
     if (client.readyState === 1) {
-      client.send(
-        JSON.stringify({
-          type: 'grouped_intervals',
-          data: grouped,
-        })
+      sendData(client, 'grouped_intervals', grouped);
+      sendData(
+        client,
+        'positions_update',
+        merged.sort((a, b) => a.position - b.position)
       );
+      sendData(client, 'session', session);
 
-      client.send(
-        JSON.stringify({
-          type: 'positions_update',
-          data: merged.sort((a, b) => a.position - b.position),
-        })
-      );
+      // client.send(
+      //   JSON.stringify({
+      //     type: 'grouped_intervals',
+      //     data: grouped,
+      //   })
+      // );
+
+      // client.send(
+      //   JSON.stringify({
+      //     type: 'positions_update',
+      //     data: merged.sort((a, b) => a.position - b.position),
+      //   })
+      // );
+
+      // client.send(
+      //   JSON.stringify({
+      //     type: 'session',
+      //     data: session,
+      //   })
+      // );
     }
   });
+}
+
+function sendData(ws, type, data) {
+  ws.send(
+    JSON.stringify({
+      type,
+      data,
+    })
+  );
 }
