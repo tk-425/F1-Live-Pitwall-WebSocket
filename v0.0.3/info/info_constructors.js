@@ -44,7 +44,7 @@ export const constructors = {
   RedBull: {
     vehicle: `https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/${currentYear}/red-bull-racing.png`,
     logo: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/2018-redesign-assets/team%20logos/red%20bull`,
-    icon: `https://media.formula1.com/content/dam/fom-website/teams/${currentYear}/red-bull-logo.png`,
+    icon: `https://media.formula1.com/content/dam/fom-website/teams/${currentYear}/red-bull-racing-logo.png`,
   },
   Williams: {
     vehicle: `https://media.formula1.com/d_team_car_fallback_image.png/content/dam/fom-website/teams/${currentYear}/williams.png`,

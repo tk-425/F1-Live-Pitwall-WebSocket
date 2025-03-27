@@ -4,12 +4,14 @@ import { fetchIntervals, fetchPositions } from './openf1Api.js';
 import { updateIntervalSnapshot } from '../data/intervals.js';
 import { updatePositionsData, getLatestPositions } from '../data/positions.js';
 import { getLatestSession } from '../data/sessions.js';
+import { getLatestStints, updateStints } from '../data/stints.js';
 import { mergePositionWithIntervals } from '../data/mergeDriverData.js';
 import { groupDriversByInterval } from '../data/groupIntervals.js';
 import {
   setLatestGroupedIntervals,
   getLatestGroupedIntervals,
 } from '../data/groupedIntervalsStore.js';
+import { sendData } from '../utils/sendData.js';
 import { tryCatchSync } from '../utils/tryCatch.js';
 
 dotenv.config();
@@ -49,36 +51,24 @@ function setupWebSocketServer(wss, port) {
     const latestIntervals = getLatestGroupedIntervals();
     if (latestIntervals.length > 0) {
       sendData(ws, 'grouped_intervals', latestIntervals);
-      // ws.send(
-      //   JSON.stringify({
-      //     type: 'grouped_intervals',
-      //     data: latestIntervals,
-      //   })
-      // );
     }
 
     // Send latest positions if available
     const latestPositions = getLatestPositions();
     if (latestPositions.length > 0) {
       sendData(ws, 'positions_update', latestPositions);
-      // ws.send(
-      //   JSON.stringify({
-      //     type: 'positions_update',
-      //     data: latestPositions,
-      //   })
-      // );
     }
 
     // Send session info if available
     const session = getLatestSession();
     if (session) {
       sendData(ws, 'session', session);
-      // ws.send(
-      //   JSON.stringify({
-      //     type: 'session',
-      //     data: session,
-      //   })
-      // );
+    }
+
+    // Send stints info if available
+    const stints = getLatestStints();
+    if (stints.length > 0) {
+      sendData(ws, 'stints', stints);
     }
 
     // Close the connection when the client disconnects
@@ -120,12 +110,17 @@ function startDataUpdater(wss, interval) {
     const session = getLatestSession();
     const now = new Date();
 
+    // If no new session detected, stop here.
     if (!session || new Date(session.date_end) < now) {
       console.warn('No active session - skipping data fetch');
       return;
     }
 
-    // Fetch data
+    // Get the latest stints
+    await updateStints();
+    const stints = getLatestStints();
+
+    // Fetch intervals and positions data
     const [intervals, intervalError] = await tryCatchSync(fetchIntervals());
     const [positions, positionsError] = await tryCatchSync(fetchPositions());
 
@@ -160,7 +155,7 @@ function startDataUpdater(wss, interval) {
 
     setLatestGroupedIntervals(grouped);
 
-    broadcastToClient(wss, merged, grouped, session);
+    broadcastToClient(wss, merged, grouped, session, stints);
   }, interval);
 }
 
@@ -183,32 +178,11 @@ function handleEmptyIntervals(wss, positions, session) {
         merged.sort((a, b) => a.position - b.position)
       );
       sendData(client, 'session', session);
-
-      // client.send(
-      //   JSON.stringify({
-      //     type: 'grouped_intervals',
-      //     data: [],
-      //   })
-      // );
-
-      // client.send(
-      //   JSON.stringify({
-      //     type: 'positions_update',
-      //     data: merged.sort((a, b) => a.position - b.position),
-      //   })
-      // );
-
-      // client.send(
-      //   JSON.stringify({
-      //     type: 'session',
-      //     data: session,
-      //   })
-      // );
     }
   });
 }
 
-function broadcastToClient(wss, merged, grouped, session) {
+function broadcastToClient(wss, merged, grouped, session, stints) {
   wss.clients.forEach((client) => {
     if (client.readyState === 1) {
       sendData(client, 'grouped_intervals', grouped);
@@ -218,36 +192,7 @@ function broadcastToClient(wss, merged, grouped, session) {
         merged.sort((a, b) => a.position - b.position)
       );
       sendData(client, 'session', session);
-
-      // client.send(
-      //   JSON.stringify({
-      //     type: 'grouped_intervals',
-      //     data: grouped,
-      //   })
-      // );
-
-      // client.send(
-      //   JSON.stringify({
-      //     type: 'positions_update',
-      //     data: merged.sort((a, b) => a.position - b.position),
-      //   })
-      // );
-
-      // client.send(
-      //   JSON.stringify({
-      //     type: 'session',
-      //     data: session,
-      //   })
-      // );
+      sendData(client, 'stints', stints);
     }
   });
-}
-
-function sendData(ws, type, data) {
-  ws.send(
-    JSON.stringify({
-      type,
-      data,
-    })
-  );
 }
