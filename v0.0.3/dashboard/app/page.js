@@ -3,26 +3,15 @@
 import { useWebSocket } from '@/hooks/useWebSocket';
 import { drivers } from '@/info/Info_drivers';
 import Image from 'next/image';
-import { useState } from 'react';
 
 export default function Home() {
-  const { intervals, positions, session } = useWebSocket();
-  const [currentSession, setCurrentSession] = useState(null);
-  let isRaceEnded = false;
+  const { intervals, positions, session, stints } = useWebSocket();
 
-  if (currentSession !== session) {
-    setCurrentSession(session);
-    isRaceEnded = false;
-  } else {
-    isRaceEnded = true;
-  }
+  const isRaceEnded = session?.date_end
+    ? new Date(session.date_end) < new Date()
+    : true;
 
-  const raceName =
-    currentSession?.country_name +
-    ' ' +
-    currentSession?.location +
-    ' ' +
-    currentSession?.session_name;
+  const raceName = `${session.country_name} ${session.location} ${session.session_name}`;
 
   return (
     <main className='p-6'>
@@ -44,13 +33,13 @@ export default function Home() {
             intervals.map((group, i) => (
               <div
                 key={i}
-                className='mt-2 border p-2 rounded'
+                className='mt-2 border p-2 mx-4 my-6 rounded'
               >
                 <h3 className='font-medium'>Group {i + 1}</h3>
                 <ul className='ml-4 list-disc'>
                   {group.map((driver) => {
                     const info = drivers[driver.driver_number] || {};
-                    const initial = info?.initial ?? '???'; // ✅ This line fixes it
+                    const initial = info?.initial ?? '???';
 
                     return (
                       <li
@@ -69,7 +58,7 @@ export default function Home() {
                               alt={`${initial} icon`}
                               width={20}
                               height={20}
-                              className='object-contain'
+                              className='object-contain mr-2'
                             />
                           )}
                           {initial} #
@@ -102,48 +91,63 @@ export default function Home() {
                 const info = drivers[driver.driver_number] || {};
                 const initial = info?.initial ?? '???';
                 const gap = driver.gap_to_leader;
-
                 const isLeader =
                   (gap === 0 || gap === null) && driver.interval === 0;
                 const isLapped =
                   typeof gap === 'string' && gap.toUpperCase().includes('LAP');
+                const driverStints = stints?.find(
+                  (s) => s.driver_number === driver.driver_number
+                );
+                const currentStintNumber = Array.isArray(driverStints?.stints)
+                  ? driverStints.stints.length
+                  : 'N/A';
+                const latestCompound = Array.isArray(driverStints?.stints)
+                  ? driverStints.stints.at(-1)?.compound ?? 'N/A'
+                  : 'N/A';
 
                 return (
                   <li
                     key={driver.driver_number}
-                    className='flex items-center gap-2 font-mono'
+                    className='font-mono mx-4 my-2'
                   >
-                    <span>
-                      Pos {String(driver.position).padStart(2, '0')} --
-                    </span>
+                    {/* First line */}
+                    <div className='flex items-center gap-2 flex-wrap'>
+                      <span>
+                        Pos {String(driver.position).padStart(2, '0')} --
+                      </span>
 
-                    {/* Driver icon + initial + number */}
-                    <span className='flex items-center gap-1'>
-                      {info.numberIcon && (
-                        <Image
-                          src={info.teamLogo}
-                          alt={`${initial} icon`}
-                          width={20}
-                          height={20}
-                          className='object-contain'
-                        />
-                      )}
-                      {initial} #{String(driver.driver_number).padStart(2, '0')}
-                    </span>
+                      <span className='flex items-center gap-1'>
+                        {info.numberIcon && (
+                          <Image
+                            src={info.teamLogo}
+                            alt={`${initial} icon`}
+                            width={20}
+                            height={20}
+                            className='object-contain mr-2'
+                          />
+                        )}
+                        {initial} #
+                        {String(driver.driver_number).padStart(2, '0')}
+                      </span>
 
-                    {/* Gap to Leader */}
-                    <span>
-                      -- Gap to Leader:{' '}
-                      {isLeader ? (
-                        'LEADER'
-                      ) : isLapped ? (
-                        gap
-                      ) : (
-                        <time suppressHydrationWarning>
-                          {!isNaN(Number(gap)) ? Number(gap).toFixed(3) : gap}
-                        </time>
-                      )}
-                    </span>
+                      <span>
+                        -- Gap to Leader:{' '}
+                        {isLeader ? (
+                          'LEADER'
+                        ) : isLapped ? (
+                          gap
+                        ) : (
+                          <time suppressHydrationWarning>
+                            {!isNaN(Number(gap)) ? Number(gap).toFixed(3) : gap}
+                          </time>
+                        )}
+                      </span>
+                    </div>
+
+                    {/* Second line: Right-aligned stint */}
+                    <div className='flex ml-58'>
+                      Stint: {currentStintNumber} — {latestCompound}
+                    </div>
                   </li>
                 );
               })

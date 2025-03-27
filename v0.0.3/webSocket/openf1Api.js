@@ -8,6 +8,8 @@ dotenv.config();
 const INTERVALS_URL = 'https://api.openf1.org/v1/intervals?session_key=latest';
 const POSITIONS_URL = 'https://api.openf1.org/v1/position?session_key=latest';
 const SESSIONS_URL = `https://api.openf1.org/v1/sessions?year=${currentYear}`;
+const STINTS_URL = 'https://api.openf1.org/v1/stints?session_key=latest';
+
 const MAX_RETRIES = process.env.MAX_RETRIES || 3;
 
 // Fetch the latest data with retry logic
@@ -53,4 +55,8 @@ export async function fetchPositions() {
 
 export async function fetchSessions() {
   return fetchWithRetry(SESSIONS_URL);
+}
+
+export async function fetchStints() {
+  return fetchWithRetry(STINTS_URL);
 }

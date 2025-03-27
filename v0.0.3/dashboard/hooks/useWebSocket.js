@@ -6,6 +6,7 @@ export function useWebSocket(url = 'ws://localhost:3000') {
   const [intervals, setIntervals] = useState([]);
   const [positions, setPositions] = useState([]);
   const [session, setSession] = useState([]);
+  const [stints, setStints] = useState([]);
 
   useEffect(() => {
     const ws = new WebSocket(url);
@@ -27,6 +28,9 @@ export function useWebSocket(url = 'ws://localhost:3000') {
         } else if (message.type === 'session') {
           console.log('📥 New session received:', message.data);
           setSession(message.data);
+        } else if (message.type === 'stints') {
+          console.log('📥 New stints received:', message.data);
+          setStints(message.data);
         }
       } catch (err) {
         console.error('Failed to parse WebSocket message:', err);
@@ -46,5 +50,5 @@ export function useWebSocket(url = 'ws://localhost:3000') {
     return () => ws.close();
   }, [url]);
 
-  return { intervals, positions, session };
+  return { intervals, positions, session, stints };
 }
