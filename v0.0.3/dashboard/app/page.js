@@ -99,7 +99,7 @@ export default function Home() {
                   (s) => s.driver_number === driver.driver_number
                 );
                 const currentStintNumber = Array.isArray(driverStints?.stints)
-                  ? driverStints.stints.length
+                  ? driverStints.stints.at(-1).stint_number - 1
                   : 'N/A';
                 const latestCompound = Array.isArray(driverStints?.stints)
                   ? driverStints.stints.at(-1)?.compound ?? 'N/A'

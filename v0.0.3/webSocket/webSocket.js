@@ -25,7 +25,7 @@ export function createWebSocketServer(server, interval = 4000) {
 
   startDataUpdater(wss, interval);
 
-  console.log('🏃 WebSocket server is running...');
+  console.info('🏃 WebSocket server is running...');
 }
 
 function setupWebSocketServer(wss, port) {
@@ -47,27 +47,35 @@ function setupWebSocketServer(wss, port) {
       })
     );
 
-    // Send the latest grouped intervals if available
+    const session = getLatestSession();
     const latestIntervals = getLatestGroupedIntervals();
-    if (latestIntervals.length > 0) {
-      sendData(ws, 'grouped_intervals', latestIntervals);
-    }
-
-    // Send latest positions if available
     const latestPositions = getLatestPositions();
-    if (latestPositions.length > 0) {
-      sendData(ws, 'positions_update', latestPositions);
-    }
+    const stints = getLatestStints();
+
+    const currentSessionKey = session?.session_key;
+    const intervalSessionKey = latestIntervals?.session_key;
+    const positionSessionKey = latestPositions?.session_key;
+    const isSessionEnded =
+      currentSessionKey !== intervalSessionKey ||
+      currentSessionKey !== positionSessionKey;
 
     // Send session info if available
-    const session = getLatestSession();
     if (session) {
       sendData(ws, 'session', session);
     }
 
+    // Send the latest grouped intervals if available
+    if (latestIntervals.length > 0 && !isSessionEnded) {
+      sendData(ws, 'grouped_intervals', latestIntervals);
+    }
+
+    // Send latest positions if available
+    if (latestPositions.length > 0 && !isSessionEnded) {
+      sendData(ws, 'positions_update', latestPositions);
+    }
+
     // Send stints info if available
-    const stints = getLatestStints();
-    if (stints.length > 0) {
+    if (stints.length > 0 && !isSessionEnded) {
       sendData(ws, 'stints', stints);
     }
 
@@ -101,7 +109,7 @@ function setupWebSocketServer(wss, port) {
     clearInterval(pingInterval);
   });
 
-  console.log(`🛜  WebSocket Server is running on ws://localhost:${port}`);
+  console.log(`🛜 WebSocket Server is running on ws://localhost:${port}`);
 }
 
 function startDataUpdater(wss, interval) {
@@ -154,6 +162,15 @@ function startDataUpdater(wss, interval) {
     const grouped = groupDriversByInterval(merged);
 
     setLatestGroupedIntervals(grouped);
+
+    // Display intervals and positions
+    // only if the current session key and grouped session key
+    // is same.
+    // Otherwise, do not display them because it is from previous race.
+    if (session.session_key !== merged.at(0).session_key) {
+      console.warn('No new session data available yet.');
+      return;
+    }
 
     broadcastToClient(wss, merged, grouped, session, stints);
   }, interval);
