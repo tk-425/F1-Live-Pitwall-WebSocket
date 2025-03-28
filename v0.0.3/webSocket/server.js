@@ -21,6 +21,6 @@ await initSessionWatcher();
 // Start listening
 server.listen(PORT, () => {
   console.log(
-    `🛜  OpenF1 WebSocket & HTTP Server is running on http://localhost:${PORT}`
+    `🛜 OpenF1 WebSocket & HTTP Server is running on http://localhost:${PORT}`
   );
 });

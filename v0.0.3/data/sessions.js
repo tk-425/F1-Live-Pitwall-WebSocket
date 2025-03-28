@@ -19,7 +19,7 @@ export function getLatestSession() {
     location: 'Garage',
     country_name: 'Sandbox',
     gmt_offset: '+00:00',
-    meeting_key: 8888,
+    meeting_key: 1255,
     circuit_key: 1,
     country_key: 1,
     country_code: 'TST',
