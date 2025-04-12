@@ -1,19 +1,11 @@
+import { envConfig } from '../utils/dotenv.config.js';
 import axios from 'axios';
-import dotenv from 'dotenv';
+import { URLS } from '../utils/urls.js';
 import { tryCatchSync } from '../utils/tryCatch.js';
-import { currentYear } from '../utils/currentYear.js';
-import { envPath } from '../utils/envPath.js';
+import { printError } from '../utils/logger.js';
 
-dotenv.config(envPath);
+const MAX_RETRIES = envConfig.MAX_RETRIES || 5;
 
-const INTERVALS_URL = `${process.env.API_URL}/intervals?session_key=latest`;
-const POSITIONS_URL = `${process.env.API_URL}/position?session_key=latest`;
-const SESSIONS_URL = `${process.env.API_URL}/sessions?year=${currentYear}`;
-const STINTS_URL = `${process.env.API_URL}/stints?session_key=latest`;
-
-const MAX_RETRIES = process.env.MAX_RETRIES || 3;
-
-// Fetch the latest data with retry logic
 async function fetchWithRetry(url, retries = MAX_RETRIES) {
   while (retries > 0) {
     const [response, error] = await tryCatchSync(axios.get(url));
@@ -23,11 +15,11 @@ async function fetchWithRetry(url, retries = MAX_RETRIES) {
     }
 
     if (error) {
-      console.error(
+      printError(
         `Error fetching ${url}: ${error.message}. Retries left: ${retries - 1}`
       );
     } else {
-      console.error(
+      printError(
         `Unexpected response from ${url}: ${response?.status}. Retries left: ${
           retries - 1
         }`
@@ -37,27 +29,35 @@ async function fetchWithRetry(url, retries = MAX_RETRIES) {
     retries--;
 
     if (retries === 0) {
-      console.error(`Max retries reached. Failed to fetch ${url}`);
+      printError(`Max retries reached. Failed to fetch ${url}`);
       return [];
     }
 
-    // Wait 1 second and try again
-    await new Promise((res) => setTimeout(res, 1000));
+    // Wait 4 second and try again
+    await new Promise((res) => setTimeout(res, 4000));
   }
 }
 
+export async function fetchMeeting() {
+  return await fetchWithRetry(URLS.MEETING);
+}
+
+export async function fetchSession() {
+  return await fetchWithRetry(URLS.SESSION);
+}
+
 export async function fetchIntervals() {
-  return await fetchWithRetry(INTERVALS_URL);
+  return await fetchWithRetry(URLS.INTERVALS);
 }
 
 export async function fetchPositions() {
-  return await fetchWithRetry(POSITIONS_URL);
-}
-
-export async function fetchSessions() {
-  return await fetchWithRetry(SESSIONS_URL);
+  return await fetchWithRetry(URLS.POSITIONS);
 }
 
 export async function fetchStints() {
-  return await fetchWithRetry(STINTS_URL);
+  return await fetchWithRetry(URLS.STINTS);
+}
+
+export async function fetchTeamRadio() {
+  return await fetchWithRetry(URLS.TEAM_RADIO);
 }

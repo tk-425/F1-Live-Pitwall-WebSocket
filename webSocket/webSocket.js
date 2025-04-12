@@ -1,115 +1,174 @@
-import { WebSocketServer, WebSocket } from 'ws';
-import dotenv from 'dotenv';
-import { updateIntervalSnapshot } from '../data/intervals.js';
-import { updatePositionsData } from '../data/positions.js';
-import { getLatestSession } from '../data/sessions.js';
+import { envConfig } from '../utils/dotenv.config.js';
+import { WebSocket, WebSocketServer } from 'ws';
+import { setupHeartbeat } from './setupHeartbeat.js';
+import { setupWebSocketLifecycle } from './setupWebSocketLifecycle.js';
+import { handleClientHandshake } from './handleClientHandshake.js';
+import {
+  printMessage,
+  printError,
+  printInfo,
+  printWarning,
+} from '../utils/logger.js';
+import { sendInitData } from '../data/sendInitData.js';
+import { getLatestSession } from '../data/session.js';
+import { fetchMeeting } from './openF1Api.js';
+import { getLatestMeeting } from '../data/meeting.js';
 import { getLatestStints, updateStints } from '../data/stints.js';
+import { getLatestTeamRadio } from '../data/teamRadio.js';
+import { fetchDriverData } from '../data/driverData.js';
+import { updateInterval } from '../data/intervals.js';
+import { updatePositionsData } from '../data/positions.js';
 import { mergePositionWithIntervals } from '../data/mergeDriverData.js';
-import { groupDriversByInterval } from '../data/groupIntervals.js';
-import { setLatestGroupedIntervals } from '../data/groupedIntervalsStore.js';
-import { broadcastToClient, broadcastAllToClient } from '../utils/broadcast.js';
-import { sendInitData } from '../utils/sendInitData.js';
-import { setupWebSocketLifecycle } from '../utils/setupWebSocketLifecycle.js';
-import { setupHeartbeat } from '../utils/setupHeartbeat.js';
-import { handleClientHandshake } from '../utils/handleClientHandshake.js';
-import { fetchDriverData } from '../utils/fetchDriverData.js';
-import { envPath } from '../utils/envPath.js';
+import {
+  groupDriversByInterval,
+  setLatestGroupedIntervals,
+} from '../data/groupIntervals.js';
+import { broadcastAllToClient, broadcastToClient } from './broadcast.js';
+import {
+  getScheduleByLocation,
+  initScheduleWatcher,
+} from '../data/schedule.js';
 
-dotenv.config(envPath);
-
-const PORT = process.env.PORT || 3000;
+const PORT = envConfig.PORT;
+let previousMeetingKey = null;
 
 export function createWebSocketServer(server, interval = 4000) {
   const wss = new WebSocketServer({ server });
-  setupWebSocketServer(wss, PORT);
+  printInfo('😀 F1-LiveUpdater WebSocket server created');
+  setupWebSocketServer(wss);
   startDataUpdater(wss, interval);
-  console.info('🏃 WebSocket server is running...');
+  printInfo(
+    `🛜 F1-LiveUpdater WebSocket server is running on ws://localhost:${PORT}`
+  );
 }
 
-function setupWebSocketServer(wss, port) {
+function setupWebSocketServer(wss) {
   wss.on('connection', (ws) => {
-    console.log('🔗 Client connected');
+    printMessage('🔗 Client connected');
     handleClientHandshake(ws);
     setupWebSocketLifecycle(ws);
     sendInitData(ws);
   });
 
   setupHeartbeat(wss);
-  console.log(`🛜 WebSocket Server is running on ws://localhost:${port}`);
 }
 
 function startDataUpdater(wss, interval) {
+  initScheduleWatcher();
+
   setInterval(async () => {
-    // Fetch session
     const session = getLatestSession();
 
-    // If no new session detected, stop here.
     if (isSessionExpired(session)) {
-      console.warn('No active session - skipping data fetch');
+      printWarning('🙅‍♂️ No active session - skipping data fetch');
       return;
     }
 
-    // Get the latest stints
-    await updateStints();
-    const stints = getLatestStints();
+    // Only fetch new meeting if session's meeting_key has changed
+    let meeting = null;
+    const currentMeetingKey = session.meeting_key;
 
-    // // Fetch intervals and positions data
+    if (currentMeetingKey !== previousMeetingKey) {
+      meeting = await fetchMeeting();
+      previousMeetingKey = currentMeetingKey;
+    } else {
+      meeting = getLatestMeeting();
+    }
+
+    // Always update live data
+    await updateStints();
+    const currentSchedule = getScheduleByLocation(session.location);
+    const stints = getLatestStints();
+    const teamRadio = getLatestTeamRadio();
     const { intervals, positions, error } = await fetchDriverData();
 
     if (error) {
-      console.error('Fetch error:', error);
+      printError('Fetch error:', error);
       return;
     }
 
-    // Check for empty interval data
-    // During the practices and qualifying,
-    // fetched intervals will be empty
-    // but the positions will be available.
     if (!Array.isArray(intervals) || intervals.length === 0) {
-      handleEmptyIntervals(wss, positions, session, stints);
+      handleEmptyIntervals(
+        wss,
+        positions,
+        session,
+        stints,
+        teamRadio,
+        meeting,
+        currentSchedule
+      );
       return;
     }
 
-    // Update latest interval and position data
-    updateIntervalSnapshot(intervals);
+    updateInterval(intervals);
     updatePositionsData(positions);
 
-    // Merge interval and position data
     const merged = mergePositionWithIntervals();
-
-    // Group drivers by intervals that are within 3 seconds
     const grouped = groupDriversByInterval(merged);
 
     setLatestGroupedIntervals(grouped);
 
-    // Display intervals and positions only if the current session key
-    // and grouped session key is same.
-    // Otherwise, do not display them because it is from previous race.
     if (isMergedDataStale(session, merged)) {
-      console.warn('No new session data available yet.');
+      printWarning('🙅‍♂️ No new session data available yet.');
       return;
     }
 
-    broadcastToClient(wss, merged, grouped, session, stints);
+    broadcastToClient(
+      wss,
+      merged,
+      grouped,
+      session,
+      stints,
+      teamRadio,
+      meeting,
+      currentSchedule
+    );
   }, interval);
 }
 
 function isSessionExpired(session) {
-  return !session || new Date(session.date_end) < new Date();
+  if (!session) {
+    printWarning('🚫 No session object found.');
+    return true;
+  }
+
+  const now = new Date();
+  const originalEnd = session.date_end ? new Date(session.date_end) : null;
+
+  if (!originalEnd || isNaN(originalEnd)) {
+    printWarning(
+      '⚠️ session.date_end is missing or invalid. Assuming session is active.'
+    );
+    return false;
+  }
+
+  // 1 hour buffer for session delay (e.g. red flag, weather, etc.)
+  const BUFFER_MS = 60 * 60 * 1000;
+  const adjustedEnd = new Date(originalEnd.getTime() + BUFFER_MS);
+
+  return adjustedEnd < now;
 }
 
-function isMergedDataStale(session, merged) {
+export function isMergedDataStale(session, merged) {
   if (!Array.isArray(merged) || merged.length === 0) {
     return true;
   }
 
   const first = merged[0];
 
-  return session.session_key !== first?.session_key;
+  return session?.session_key !== first?.session_key;
 }
 
-function handleEmptyIntervals(wss, positions, session, stints) {
-  console.warn('OpenF1 returned empty intervals.');
+function handleEmptyIntervals(
+  wss,
+  positions,
+  session,
+  stints,
+  teamRadio,
+  meeting,
+  currentSchedule
+) {
+  printWarning('F1-LiveUpdater returned empty intervals.');
 
   // Clear grouped cache
   setLatestGroupedIntervals([]);
@@ -126,6 +185,9 @@ function handleEmptyIntervals(wss, positions, session, stints) {
         merged: sortedMerged,
         session,
         stints,
+        teamRadio,
+        meeting,
+        currentSchedule,
       });
     }
   });

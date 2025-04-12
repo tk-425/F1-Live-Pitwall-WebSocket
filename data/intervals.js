@@ -1,7 +1,22 @@
+import { printMessage } from '../utils/logger.js';
+import { testIntervalsData } from '../test/testData.js';
+
 const latestIntervalData = new Map();
 
-// Updates the latest interval data per driver
-export function updateIntervalSnapshot(newIntervals) {
+// Get the latest interval data
+// export function getLatestInterval() {
+//   return Array.from(latestIntervalData.values());
+// }
+
+// TEST: Dummy interval data
+export function getLatestInterval() {
+  return Array.from(testIntervalsData.values());
+}
+
+// Update the latest interval data per driver
+export function updateInterval(newIntervals) {
+  printMessage('🔄 Updating interval...');
+
   newIntervals.forEach((entry) => {
     const existing = latestIntervalData.get(entry.driver_number);
 
@@ -9,9 +24,4 @@ export function updateIntervalSnapshot(newIntervals) {
       latestIntervalData.set(entry.driver_number, entry);
     }
   });
-}
-
-// Get the latest interval data
-export function getLatestIntervals() {
-  return Array.from(latestIntervalData.values());
 }
