@@ -154,7 +154,7 @@ export function useWebSocket(url = WEBSOCKET_URL) {
       };
 
       ws.onerror = (event) => {
-        printError('❌ WebSocket error');
+        printWarning('❌ WebSocket error');
         ws.close();
       };
 

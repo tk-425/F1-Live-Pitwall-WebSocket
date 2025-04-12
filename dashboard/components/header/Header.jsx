@@ -65,11 +65,11 @@ export default function Header() {
   return (
     <>
       <header className='mt-6'>
-        <div className='flex justify-center items-center text-3xl font-bold mb-8'>
+        <div className='flex justify-center items-center text-3xl font-bold mb-4'>
           <div className='mr-2 italic font-mono text-red-600'>F1</div>
           <div className=''>Live Updater</div>
         </div>
-        <div className='text-center font-bold text-lg'>
+        <div className='text-center font-bold text-md'>
           {nextRace && (
             <>
               {new Date(nextRace.sessions.gp).getUTCFullYear()}{' '}

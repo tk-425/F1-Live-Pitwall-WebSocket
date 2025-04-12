@@ -1,7 +1,7 @@
 import { useWebSocketContext } from '@/context/WebSocketContext';
 import { drivers } from '@/info/Info_drivers';
 import DriverBadge from '@/components/icons/drivers/DriverBadge';
-import Unavailable from '../content/Unavailable';
+import Unavailable from '../utils/Unavailable';
 import { ActiveViewType } from '@/utils/activeViewType';
 
 export default function Intervals() {
