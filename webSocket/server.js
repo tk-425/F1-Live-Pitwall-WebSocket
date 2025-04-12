@@ -1,31 +1,26 @@
 import http from 'http';
-import dotenv from 'dotenv';
+import { envConfig } from '../utils/dotenv.config.js';
+import { initMeetingWatcher } from '../data/meeting.js';
 import { createWebSocketServer } from './webSocket.js';
-import { startHttpServer } from './httpServer.js';
-import { initSessionWatcher } from '../data/sessions.js';
-import { envPath } from '../utils/envPath.js';
+import { printInfo } from '../utils/logger.js';
+import { initSessionWatcher } from '../data/session.js';
 
-dotenv.config(envPath);
+const PORT = envConfig.PORT;
 
-const PORT = process.env.PORT || 3000;
-
-async function startApplication() {
-  // Create a single HTTP server instance
+async function startWebSocket() {
   const server = http.createServer();
+  printInfo('😀 F1-LiveUpdater HTTP server created');
 
-  // Run session cache check every 10 min
+  await initMeetingWatcher();
   await initSessionWatcher();
 
-  // Start WebSocket and HTTP server
+  // Start the WebSocket server
   createWebSocketServer(server);
-  startHttpServer(server, PORT);
 
   // Start listening
   server.listen(PORT, () => {
-    console.log(
-      `🛜 OpenF1 WebSocket & HTTP Server is running on http://localhost:${PORT}`
-    );
+    printInfo(`🛜 F1-LiveUpdater Server is running on http://localhost:${PORT}`);
   });
 }
 
-startApplication();
+startWebSocket();

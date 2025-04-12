@@ -14,6 +14,7 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/PIEGAS01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/gasly`,
     teamLogo: constructors.Alpine.icon,
+    constructor: constructors.Alpine.name,
   },
   7: {
     initial: 'DOO',
@@ -25,6 +26,7 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/JACDOO01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/doohan`,
     teamLogo: constructors.Alpine.icon,
+    constructor: constructors.Alpine.name,
   },
 
   // Aston Martin
@@ -38,6 +40,7 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/LANSTR01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/stroll`,
     teamLogo: constructors.AstonMartin.icon,
+    constructor: constructors.AstonMartin.name,
   },
   14: {
     initial: 'ALO',
@@ -49,6 +52,7 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/FERALO01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/alonso`,
     teamLogo: constructors.AstonMartin.icon,
+    constructor: constructors.AstonMartin.name,
   },
 
   // Ferrari
@@ -62,6 +66,7 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/CHALEC01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/leclerc`,
     teamLogo: constructors.Ferrari.icon,
+    constructor: constructors.Ferrari.name,
   },
   44: {
     initial: 'HAM',
@@ -73,6 +78,7 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/LEWHAM01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/hamilton`,
     teamLogo: constructors.Ferrari.icon,
+    constructor: constructors.Ferrari.name,
   },
 
   // Haas
@@ -86,6 +92,7 @@ export const drivers = {
       ' https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/ESTOCO01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/ocon`,
     teamLogo: constructors.Haas.icon,
+    constructor: constructors.Haas.name,
   },
   87: {
     initial: 'BEA',
@@ -97,6 +104,7 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/OLIBEA01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/bearman`,
     teamLogo: constructors.Haas.icon,
+    constructor: constructors.Haas.name,
   },
 
   // Kick Sauber
@@ -110,6 +118,7 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/NICHUL01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/hulkenberg`,
     teamLogo: constructors.KickSauber.icon,
+    constructor: constructors.KickSauber.name,
   },
   5: {
     initial: 'BOR',
@@ -121,6 +130,7 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/GABBOR01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/bortoleto`,
     teamLogo: constructors.KickSauber.icon,
+    constructor: constructors.KickSauber.name,
   },
 
   // McLaren
@@ -134,6 +144,7 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/OSCPIA01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/piastri`,
     teamLogo: constructors.McLaren.icon,
+    constructor: constructors.McLaren.name,
   },
   4: {
     initial: 'NOR',
@@ -145,6 +156,7 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/LANNOR01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/norris`,
     teamLogo: constructors.McLaren.icon,
+    constructor: constructors.McLaren.name,
   },
 
   // Mercedes
@@ -158,6 +170,7 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/GEORUS01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/russell`,
     teamLogo: constructors.Mercedes.icon,
+    constructor: constructors.Mercedes.name,
   },
   12: {
     initial: 'ANT',
@@ -169,9 +182,22 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/ANDANT01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/antonelli`,
     teamLogo: constructors.Mercedes.icon,
+    constructor: constructors.Mercedes.name,
   },
 
   // Racing Bulls
+  30: {
+    initial: 'LAW',
+    flag: countryFlags.NZL,
+    headshot:
+      'https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/L/LIALAW01_Liam_Lawson/lialaw01.png',
+    halfBody: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/fom-website/drivers/${currentYear}Drivers/lawson-racing-bulls`,
+    numberIcon:
+      'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/LIALAW01.png',
+    helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/lawson`,
+    teamLogo: constructors.RacingBulls.icon,
+    constructor: constructors.RacingBulls.name,
+  },
   6: {
     initial: 'HAD',
     flag: countryFlags.FRA,
@@ -182,17 +208,7 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/ISAHAD01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/hadjar`,
     teamLogo: constructors.RacingBulls.icon,
-  },
-  22: {
-    initial: 'TSU',
-    flag: countryFlags.JPN,
-    headshot:
-      'https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/Y/YUKTSU01_Yuki_Tsunoda/yuktsu01.png',
-    halfBody: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/drivers/${currentYear}Drivers/tsunoda`,
-    numberIcon:
-      'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/YUKTSU01.png',
-    helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/tsunoda`,
-    teamLogo: constructors.RacingBulls.icon,
+    constructor: constructors.RacingBulls.name,
   },
 
   // Red Bull Racing
@@ -206,17 +222,19 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/MAXVER01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/verstappen`,
     teamLogo: constructors.RedBull.icon,
+    constructor: constructors.RedBull.name,
   },
-  30: {
-    initial: 'LAW',
-    flag: countryFlags.NZL,
+  22: {
+    initial: 'TSU',
+    flag: countryFlags.JPN,
     headshot:
-      'https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/L/LIALAW01_Liam_Lawson/lialaw01.png',
-    halfBody: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/drivers/${currentYear}Drivers/lawson`,
+      'https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/Y/YUKTSU01_Yuki_Tsunoda/yuktsu01.png',
+    halfBody: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/drivers/${currentYear}Drivers/tsunoda`,
     numberIcon:
-      'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/LIALAW01.png',
-    helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/lawson`,
+      'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/YUKTSU01.png',
+    helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/tsunoda`,
     teamLogo: constructors.RedBull.icon,
+    constructor: constructors.RedBull.name,
   },
 
   // Williams
@@ -230,6 +248,7 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/ALEALB01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/albon`,
     teamLogo: constructors.Williams.icon,
+    constructor: constructors.Williams.name,
   },
   55: {
     initial: 'SAI',
@@ -241,5 +260,6 @@ export const drivers = {
       'https://media.formula1.com/d_default_fallback_image.png/content/dam/fom-website/2018-redesign-assets/drivers/number-logos/CARSAI01.png',
     helmet: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1024/fom-website/manual/Helmets${currentYear}/sainz`,
     teamLogo: constructors.Williams.icon,
+    constructor: constructors.Williams.name,
   },
 };

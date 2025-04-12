@@ -1,11 +1,13 @@
 {
   "name": "openf1-websocket",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node webSocket/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dash": "npm --prefix dashboard run dev",
+    "test": "node test/test.js",
+    "testServer": "node test/testServer.js"
   },
   "keywords": [],
   "author": "",
