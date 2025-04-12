@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import { useWebSocketContext } from '@/context/WebSocketContext';
-import DriverRadioPlayer from '../radio/DriverRadioPlayer';
+import DriverRadioPlayer from './DriverRadioPlayer';
 import { combineTeamRadiosByConstructor } from '@/utils/flattenRadioTracks';
 import { teamIcons } from '@/public/assets/images/teamIcons/teamIcons';
 import { teamIconFit } from '@/style/style';
-import Unavailable from '../content/Unavailable';
+import Unavailable from '../utils/Unavailable';
 import { ActiveViewType } from '@/utils/activeViewType';
 
 export default function TeamRadioPlayer() {

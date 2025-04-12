@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useWebSocketContext } from '@/context/WebSocketContext';
-import Unavailable from '../content/Unavailable';
+import Unavailable from '../utils/Unavailable';
 import { ActiveViewType } from '@/utils/activeViewType';
 import Position1stRow from './Position1stRow';
 import Position2ndRow from './Position2ndRow';
