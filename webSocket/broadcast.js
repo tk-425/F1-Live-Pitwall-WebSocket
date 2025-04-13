@@ -4,21 +4,24 @@ import { SendDataType } from '../utils/sendDataType.js';
 
 export function broadcastToClient(
   wss,
-  merged,
-  grouped,
+  mergedPositionsAndIntervals,
+  groupedIntervals,
   session,
   stints,
   teamRadio,
   meeting,
   currentSchedule
 ) {
-  const sortedMerged = merged.sort((a, b) => a.position - b.position);
+  const sortedPosition = mergedPositionsAndIntervals.sort(
+    (a, b) => a.position - b.position
+  );
 
   wss.clients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN) {
       broadcastAllToClient(client, {
-        grouped,
-        merged: sortedMerged,
+        mergedPositionsAndIntervals,
+        sortedPosition,
+        groupedIntervals,
         session,
         stints,
         teamRadio,
@@ -31,13 +34,23 @@ export function broadcastToClient(
 
 export function broadcastAllToClient(
   client,
-  { grouped, merged, session, stints, teamRadio, meeting, currentSchedule }
+  {
+    mergedPositionsAndIntervals,
+    sortedPosition,
+    groupedIntervals,
+    session,
+    stints,
+    teamRadio,
+    meeting,
+    currentSchedule,
+  }
 ) {
-  sendData(client, SendDataType.INTERVALS, grouped);
-  sendData(client, SendDataType.POSITIONS, merged);
+  sendData(client, SendDataType.POSITIONS, sortedPosition);
+  sendData(client, SendDataType.ALL_INTERVALS, mergedPositionsAndIntervals);
+  sendData(client, SendDataType.INTERVALS, groupedIntervals);
   sendData(client, SendDataType.SESSION, session);
   sendData(client, SendDataType.STINTS, stints);
   sendData(client, SendDataType.TEAM_RADIO, teamRadio);
   sendData(client, SendDataType.MEETING, meeting);
-  sendData(client, SendDataType.SCHEDULE, currentSchedule)
+  sendData(client, SendDataType.SCHEDULE, currentSchedule);
 }

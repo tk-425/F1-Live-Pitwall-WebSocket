@@ -6,18 +6,18 @@ import Position1stRow from './Position1stRow';
 import Position2ndRow from './Position2ndRow';
 
 export default function Positions() {
-  const { positions, stints } = useWebSocketContext();
+  const { positions } = useWebSocketContext();
 
-  const stintsByDriver = useMemo(() => {
-    const map = new Map();
-    for (const stint of stints) {
-      if (!map.has(stint.driver_number)) {
-        map.set(stint.driver_number, []);
-      }
-      map.get(stint.driver_number).push(stint);
-    }
-    return map;
-  }, [stints]);
+  // const stintsByDriver = useMemo(() => {
+  //   const map = new Map();
+  //   for (const stint of stints) {
+  //     if (!map.has(stint.driver_number)) {
+  //       map.set(stint.driver_number, []);
+  //     }
+  //     map.get(stint.driver_number).push(stint);
+  //   }
+  //   return map;
+  // }, [stints]);
 
   if (!Array.isArray(positions) || positions.length === 0) {
     return <Unavailable message={ActiveViewType.POSITIONS} />;
@@ -41,7 +41,6 @@ export default function Positions() {
 
           {/* Pit number & Current tire compound */}
           <Position2ndRow
-            stints={stints}
             position={position}
           />
         </div>

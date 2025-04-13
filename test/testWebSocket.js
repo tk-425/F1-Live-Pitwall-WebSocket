@@ -31,6 +31,10 @@ import {
   getScheduleByLocation,
   initScheduleWatcher,
 } from '../data/schedule.js';
+import {
+  simulateIntervalChange,
+  simulateStintChange,
+} from './testSimulator.js';
 
 const PORT = envConfig.PORT;
 let previousMeetingKey = null;
@@ -39,6 +43,11 @@ export function createTestWebSocketServer(server, interval = 10000) {
   const wss = new WebSocketServer({ server });
   printInfo('🩻 TEST: F1-LiveUpdater WebSocket server created');
   setupWebSocketServer(wss);
+
+  // Simulate Test Data
+  simulateIntervalChange(wss);
+  simulateStintChange(wss);
+
   startDataUpdater(wss, interval);
   printInfo(
     `🛜 F1-LiveUpdater WebSocket server is running on ws://localhost:${PORT}`
@@ -106,20 +115,22 @@ function startDataUpdater(wss, interval) {
     updateInterval(intervals);
     updatePositionsData(positions);
 
-    const merged = mergePositionWithIntervals();
-    const grouped = groupDriversByInterval(merged);
+    const mergedPositionsAndIntervals = mergePositionWithIntervals();
+    const groupedIntervals = groupDriversByInterval(
+      mergedPositionsAndIntervals
+    );
 
-    setLatestGroupedIntervals(grouped);
+    setLatestGroupedIntervals(groupedIntervals);
 
-    if (isMergedDataStale(session, merged)) {
+    if (isMergedDataStale(session, mergedPositionsAndIntervals)) {
       printWarning('🙅‍♂️ No new session data available yet.');
       return;
     }
 
     broadcastToClient(
       wss,
-      merged,
-      grouped,
+      mergedPositionsAndIntervals,
+      groupedIntervals,
       session,
       stints,
       teamRadio,
@@ -136,9 +147,20 @@ function isSessionExpired(session) {
   }
 
   const now = new Date();
-  const end = new Date(session.date_end);
+  const originalEnd = session.date_end ? new Date(session.date_end) : null;
 
-  return end < now;
+  if (!originalEnd || isNaN(originalEnd)) {
+    printWarning(
+      '⚠️ session.date_end is missing or invalid. Assuming session is active.'
+    );
+    return false;
+  }
+
+  // 1 hour buffer for session delay (e.g. red flag, weather, etc.)
+  const BUFFER_MS = 60 * 60 * 1000;
+  const adjustedEnd = new Date(originalEnd.getTime() + BUFFER_MS);
+
+  return adjustedEnd < now;
 }
 
 export function isMergedDataStale(session, merged) {
@@ -167,14 +189,17 @@ function handleEmptyIntervals(
   // Still update positions
   updatePositionsData(positions);
 
-  const merged = mergePositionWithIntervals();
-  const sortedMerged = merged.slice().sort((a, b) => a.position - b.position);
+  const mergedPositionsAndIntervals = mergePositionWithIntervals();
+  const sortedMerged = mergedPositionsAndIntervals
+    .slice()
+    .sort((a, b) => a.position - b.position);
 
   wss.clients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN) {
       broadcastAllToClient(client, {
+        mergedPositionsAndIntervals,
+        sortedMerged,
         grouped: [],
-        merged: sortedMerged,
         session,
         stints,
         teamRadio,

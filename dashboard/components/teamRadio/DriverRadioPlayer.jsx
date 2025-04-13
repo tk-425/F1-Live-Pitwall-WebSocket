@@ -99,7 +99,7 @@ export default function DriverRadioPlayer({ driverNumber, radios }) {
   if (!currentTrack) return null;
 
   return (
-    <div className='my-4 p-4 border rounded w-xl shadow-sm'>
+    <div className='my-2 p-4 rounded w-xl shadow-sm'>
       <div className='flex justify-between'>
         <RadioPlayerTitle
           initial={drivers[driverNumber].initial}
@@ -119,31 +119,33 @@ export default function DriverRadioPlayer({ driverNumber, radios }) {
         />
       </div>
 
-      <audio
-        ref={audioRef}
-        src={currentTrack.src}
-        onEnded={handleEnded}
-      />
+      <div className='flex items-center'>
+        <audio
+          ref={audioRef}
+          src={currentTrack.src}
+          onEnded={handleEnded}
+        />
 
-      <input
-        type='range'
-        min={0}
-        max={duration}
-        value={progress}
-        step='0.1'
-        onChange={handleSeek}
-        className='w-full'
-      />
+        <input
+          type='range'
+          min={0}
+          max={duration}
+          value={progress}
+          step='0.1'
+          onChange={handleSeek}
+          className='w-full'
+        />
+      </div>
 
       {showPlaylist && (
-        <div className='max-h-40 overflow-y-auto border rounded p-2 mt-2'>
-          <ul className='space-y-2'>
+        <div className='max-h-40 overflow-y-auto rounded p-2 mt-2 custom-scrollbar'>
+          <ul>
             {tracks.map((track, index) => (
               <li
                 key={index}
                 onClick={() => playTrack(index)}
-                className={`p-2 border rounded cursor-pointer text-sm ${
-                  index === currentTrackIndex ? 'bg-gray-200 font-medium text-black' : ''
+                className={`playlist-item ${
+                  index === currentTrackIndex ? 'playlist-item-active' : ''
                 }`}
               >
                 {track.title}

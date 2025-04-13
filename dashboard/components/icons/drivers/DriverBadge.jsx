@@ -1,9 +1,9 @@
-import { black, white } from '@/style/style';
+import { black, teal } from '@/style/style';
 
 export default function DriverBadge({
   initial = 'N/A',
   driverNumber = '00',
-  teamColor = 'darkgray',
+  teamColor = teal,
   height = 40,
   fontRatio = 0.5,
   className,
