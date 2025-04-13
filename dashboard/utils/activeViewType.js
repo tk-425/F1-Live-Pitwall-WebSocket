@@ -1,5 +1,5 @@
 export const ActiveViewType = {
-  INTERVALS: 'Intervals',
+  INTERVALS: '3-Sec Intervals',
   POSITIONS: 'Positions',
   TEAM_RADIO: 'Team Radio',
 };

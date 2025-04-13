@@ -1,6 +1,8 @@
+import { white } from '@/style/style';
+
 export default function HidePlaylistIcon({
   size = 24,
-  color = 'currentColor',
+  color = white,
   slashColor = 'red',
 }) {
   return (

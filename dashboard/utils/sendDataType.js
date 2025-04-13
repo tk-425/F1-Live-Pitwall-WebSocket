@@ -1,5 +1,6 @@
 export const SendDataType = {
   INTERVALS: 'intervals',
+  ALL_INTERVALS: 'all_intervals',
   POSITIONS: 'positions',
   SESSION: 'session',
   STINTS: 'stints',

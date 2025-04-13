@@ -1,3 +1,5 @@
+import { getTireInitial } from '@/utils/tireDataType';
+
 export default function Tire({
   className,
   size,
@@ -12,6 +14,8 @@ export default function Tire({
   const circumference = 2 * Math.PI * radius;
   const gap = circumference * 0.05;
   const visible = (circumference - gap * 2) / 2;
+
+  tireType = getTireInitial(tireType);
 
   return (
     <svg
