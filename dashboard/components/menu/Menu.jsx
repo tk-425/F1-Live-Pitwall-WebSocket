@@ -6,7 +6,7 @@ export default function Menu({ activeView, setActiveView }) {
   const teamRadio = ActiveViewType.TEAM_RADIO;
 
   return (
-    <div className='flex my-4 text-lg'>
+    <div className='flex mt-6 mb-2 text-lg'>
       {Object.entries(ActiveViewType).map(([key, label]) => (
         <button
           className={`px-4 cursor-pointer ${

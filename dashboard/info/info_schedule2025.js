@@ -1,6 +1,9 @@
+import { countryFlags } from './info_countryFlags';
+
 export const schedule_2025 = [
   {
     name: 'Australian',
+    flag: countryFlags.AUS,
     race_name: 'LOUIS VUITTON AUSTRALIAN GRAND PRIX',
     location: 'Melbourne',
     latitude: -37.8373,
@@ -19,6 +22,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Chinese',
+    flag: countryFlags.CHN,
     race_name: 'HEINEKEN CHINESE GRAND PRIX',
     location: 'Shanghai',
     latitude: 31.3807,
@@ -37,6 +41,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Japanese',
+    flag: countryFlags.JPN,
     race_name: 'LENOVO JAPANESE GRAND PRIX',
     location: 'Suzuka',
     latitude: 35.3689,
@@ -55,6 +60,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Bahrain',
+    flag: countryFlags.BRN,
     race_name: 'GULF AIR BAHRAIN GRAND PRIX',
     location: 'Sakhir',
     latitude: 26.037,
@@ -73,6 +79,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Saudi Arabian',
+    flag: countryFlags.KSA,
     race_name: 'STC SAUDI ARABIAN GRAND PRIX',
     location: 'Jeddah',
     latitude: 21.485811,
@@ -91,6 +98,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Miami',
+    flag: countryFlags.USA,
     race_name: 'CRYPTO.COM MIAMI GRAND PRIX',
     location: 'Miami',
     latitude: 25.957764,
@@ -109,6 +117,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Emilia Romagna Grand Prix',
+    flag: countryFlags.ITA,
     race_name: "AWS GRAN PREMIO DEL MADE IN ITALY E DELL'EMILIA-ROMAGNA",
     location: 'Imola',
     latitude: 44.344576,
@@ -127,6 +136,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Monaco',
+    flag: countryFlags.MON,
     race_name: 'TAG HEUER GRAND PRIX DE MONACO',
     location: 'Monte Carlo',
     latitude: 43.7338,
@@ -145,6 +155,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Spanish',
+    flag: countryFlags.ESP,
     race_name: 'ARAMCO GRAN PREMIO DE ESPAÑA',
     location: 'Catalunya',
     latitude: 41.5638,
@@ -163,6 +174,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Canadian',
+    flag: countryFlags.CAN,
     race_name: 'PIRELLI GRAND PRIX DU CANADA',
     location: 'Montreal',
     latitude: 45.5034,
@@ -181,6 +193,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Austrian',
+    flag: countryFlags.AUT,
     race_name: 'MSC CRUISES AUSTRIAN GRAND PRIX',
     location: 'Spielberg',
     latitude: 47.2225,
@@ -199,6 +212,7 @@ export const schedule_2025 = [
   },
   {
     name: 'British',
+    flag: countryFlags.GBR,
     race_name: 'QATAR AIRWAYS BRITISH GRAND PRIX',
     location: 'Silverstone',
     latitude: 52.0706,
@@ -217,6 +231,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Belgian',
+    flag: countryFlags.BEL,
     race_name: 'MOËT & CHANDON BELGIAN GRAND PRIX',
     location: 'Spa-Francorchamps',
     latitude: 50.444,
@@ -235,6 +250,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Hungarian',
+    flag: countryFlags.HUN,
     race_name: 'LENOVO HUNGARIAN GRAND PRIX',
     location: 'Budapest',
     latitude: 47.583,
@@ -253,6 +269,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Dutch',
+    flag: countryFlags.NLD,
     race_name: 'HEINEKEN DUTCH GRAND PRIX',
     location: 'Zandvoort',
     latitude: 52.388408,
@@ -271,6 +288,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Italian',
+    flag: countryFlags.ITA,
     race_name: 'PIRELLI GRAN PREMIO D’ITALIA',
     location: 'Monza',
     latitude: 45.6169,
@@ -289,6 +307,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Azerbaijan',
+    flag: countryFlags.AZE,
     race_name: 'QATAR AIRWAYS AZERBAIJAN GRAND PRIX',
     location: 'Baku',
     latitude: 40.3699,
@@ -307,6 +326,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Singapore',
+    flag: countryFlags.SGP,
     race_name: 'SINGAPORE AIRLINES SINGAPORE GRAND PRIX',
     location: 'Singapore',
     latitude: 1.2857,
@@ -325,6 +345,7 @@ export const schedule_2025 = [
   },
   {
     name: 'United States',
+    flag: countryFlags.USA,
     race_name: 'MSC CRUISES UNITED STATES GRAND PRIX',
     location: 'Austin',
     latitude: 30.1328,
@@ -343,6 +364,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Mexican',
+    flag: countryFlags.MEX,
     race_name: 'GRAN PREMIO DE LA CIUDAD DE MÉXICO',
     location: 'Mexico City',
     latitude: 19.4028,
@@ -361,6 +383,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Brazilian',
+    flag: countryFlags.BRA,
     race_name: 'MSC CRUISES GRANDE PRÊMIO DE SÃO PAULO',
     location: 'Sao Paulo',
     latitude: -23.7014,
@@ -379,6 +402,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Las Vegas',
+    flag: countryFlags.USA,
     race_name: 'HEINEKEN LAS VEGAS GRAND PRIX',
     location: 'Las Vegas',
     latitude: 36.166747,
@@ -397,6 +421,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Qatar',
+    flag: countryFlags.QAT,
     race_name: 'QATAR AIRWAYS QATAR GRAND PRIX ',
     location: 'Doha',
     latitude: 25.490292,
@@ -415,6 +440,7 @@ export const schedule_2025 = [
   },
   {
     name: 'Abu Dhabi',
+    flag: countryFlags.UAE,
     location: 'Yas Marina',
     latitude: 24.4821,
     longitude: 54.3482,
