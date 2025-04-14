@@ -335,7 +335,7 @@ export const drivers = {
   // Red Bull Racing
   1: {
     initial: 'VER',
-    flag: countryFlags.NED,
+    flag: countryFlags.NLD,
     headshot:
       'https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/M/MAXVER01_Max_Verstappen/maxver01.png',
     halfBody: `https://media.formula1.com/image/upload/f_auto,c_limit,q_auto,w_1320/content/dam/fom-website/drivers/${currentYear}Drivers/verstappen`,

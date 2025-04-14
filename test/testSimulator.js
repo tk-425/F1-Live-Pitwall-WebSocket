@@ -1,4 +1,8 @@
-import { testIntervalsData, testStintsData } from './testData.js';
+import {
+  testIntervalsData,
+  testStintsData,
+  testTeamRadioData,
+} from './testData.js';
 import {
   groupDriversByInterval,
   setLatestGroupedIntervals,
@@ -28,8 +32,6 @@ export function simulateIntervalChange(wss) {
       driver23.date = new Date().toISOString();
       testIntervalsData.set(23, { ...driver23 });
 
-      // printMessage('🚦 Simulated interval update: driver 63 & 23');
-
       toggled = !toggled;
 
       emitUpdatedData(wss);
@@ -52,10 +54,6 @@ export function simulateStintChange(wss) {
     const firstStint = targetDriver.stints[0];
     firstStint.compound = toggleFirst ? 'MEDIUM' : 'UNKNOWN';
 
-    // printMessage(
-    //   `🧪 Simulated stint update: driver 1 FIRST compound = ${firstStint.compound}`
-    // );
-
     emitUpdatedData(wss);
     toggleFirst = !toggleFirst;
   }, 5000);
@@ -71,13 +69,37 @@ export function simulateStintChange(wss) {
     const latestStint = targetDriver.stints.at(-1);
     latestStint.compound = toggleLast ? 'SOFT' : 'UNKNOWN';
 
-    // printMessage(
-    //   `🧪 Simulated stint update: driver 1 LAST compound = ${latestStint.compound}`
-    // );
-
     emitUpdatedData(wss);
     toggleLast = !toggleLast;
   }, 7000);
+}
+
+export function simulateTeamRadioUpdates(wss) {
+  setInterval(() => {
+    const driverNumber = 1;
+    const entry = testTeamRadioData.find(
+      (entry) => entry.driver_number === driverNumber
+    );
+
+    if (!entry) {
+      return;
+    }
+
+    const now = new Date().toISOString();
+
+    const newRadio = {
+      session_key: 9998,
+      meeting_key: 1255,
+      driver_number: driverNumber,
+      date: now,
+      recording_url:
+        'https://livetiming.formula1.com/static/2025/2025-04-06_Japanese_Grand_Prix/2025-04-06_Race/TeamRadio/MAXVER01_1_20250406_152735.mp3',
+    };
+
+    entry.radios.push(newRadio);
+
+    emitUpdatedData(wss);
+  }, 20000);
 }
 
 function emitUpdatedData(wss) {

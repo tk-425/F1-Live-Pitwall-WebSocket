@@ -4,6 +4,8 @@ import { schedule_2025 } from '@/info/info_schedule2025';
 import ServerAlert from './ServerAlert';
 import { sessionDataType } from '@/utils/sessionDataType';
 import SessionAlert from './SessionAlert';
+import Image from 'next/image';
+import { teamIconFit } from '@/style/style';
 
 export default function Header() {
   const { isServerDisconnected } = useWebSocketContext();
@@ -65,15 +67,24 @@ export default function Header() {
   return (
     <>
       <header className='mt-6'>
-        <div className='flex justify-center items-center text-3xl font-bold mb-4'>
+        <div className='flex justify-center items-center text-4xl font-bold mb-4'>
           <div className='mr-2 italic font-mono text-red-600'>F1</div>
           <div className=''>Live Updater</div>
         </div>
-        <div className='text-center font-bold text-md'>
+        <div className='flex flex-row items-center text-center font-bold text-xl'>
           {nextRace && (
             <>
-              {new Date(nextRace.sessions.gp).getUTCFullYear()}{' '}
-              {nextRace.race_name}
+              <Image
+                src={nextRace.flag}
+                width={50}
+                height={50}
+                className={`${teamIconFit} rounded`}
+                alt='Race Flag'
+              />
+              <span className='mx-2'>
+                {new Date(nextRace.sessions.gp).getUTCFullYear()}
+              </span>
+              <span>{nextRace.race_name}</span>
             </>
           )}
         </div>

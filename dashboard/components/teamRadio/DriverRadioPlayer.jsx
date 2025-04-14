@@ -46,12 +46,16 @@ export default function DriverRadioPlayer({ driverNumber, radios }) {
 
   // Show flashing dot when track count increases
   useEffect(() => {
+    let timeout;
+
     if (trackCount > lastTrackCount) {
       setShowDot(true);
-      const timeout = setTimeout(() => setShowDot(false), 3000);
-      setLastTrackCount(trackCount);
-      return () => clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        setShowDot(false);
+      }, 4000);
     }
+
+    return () => clearTimeout(timeout);
   }, [trackCount, lastTrackCount]);
 
   const togglePlay = () => {
@@ -104,7 +108,7 @@ export default function DriverRadioPlayer({ driverNumber, radios }) {
         <RadioPlayerTitle
           initial={drivers[driverNumber].initial}
           driverNumber={driverNumber}
-          height={36}
+          height={30}
           teamColor={drivers[driverNumber].teamColor}
           currentTrack={currentTrack.title}
           trackCount={trackCount}

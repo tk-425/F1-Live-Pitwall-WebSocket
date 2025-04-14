@@ -34,6 +34,7 @@ import {
 import {
   simulateIntervalChange,
   simulateStintChange,
+  simulateTeamRadioUpdates,
 } from './testSimulator.js';
 
 const PORT = envConfig.PORT;
@@ -47,6 +48,7 @@ export function createTestWebSocketServer(server, interval = 10000) {
   // Simulate Test Data
   simulateIntervalChange(wss);
   simulateStintChange(wss);
+  simulateTeamRadioUpdates(wss);
 
   startDataUpdater(wss, interval);
   printInfo(
