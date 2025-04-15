@@ -8,17 +8,6 @@ import Position2ndRow from './Position2ndRow';
 export default function Positions() {
   const { positions } = useWebSocketContext();
 
-  // const stintsByDriver = useMemo(() => {
-  //   const map = new Map();
-  //   for (const stint of stints) {
-  //     if (!map.has(stint.driver_number)) {
-  //       map.set(stint.driver_number, []);
-  //     }
-  //     map.get(stint.driver_number).push(stint);
-  //   }
-  //   return map;
-  // }, [stints]);
-
   if (!Array.isArray(positions) || positions.length === 0) {
     return <Unavailable message={ActiveViewType.POSITIONS} />;
   }
@@ -49,7 +38,7 @@ export default function Positions() {
   );
 
   return (
-    <div className='mt-6 flex justify-center gap-12'>
+    <div className='mt-6 mb-4 flex justify-center gap-8'>
       {renderColumn(leftColumn, 0)}
       {renderColumn(rightColumn, 10)}
     </div>

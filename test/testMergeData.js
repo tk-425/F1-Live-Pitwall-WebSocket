@@ -1,11 +1,11 @@
 import { drivers } from '../info/info_drivers.js';
-import { getLatestInterval } from './intervals.js';
-import { getLatestPositions } from './positions.js';
+import { getTestLatestPositions } from './testData.js';
+import { getTestLatestInterval } from './testData.js';
 
-// Merge latest position and interval data into one driver object
-export function mergePositionWithIntervals() {
-  const positions = getLatestPositions();
-  const intervals = getLatestInterval();
+// TEST
+export function testMergePositionWithIntervals() {
+  const positions = getTestLatestPositions();
+  const intervals = getTestLatestInterval();
 
   const intervalMap = new Map();
 
@@ -13,12 +13,12 @@ export function mergePositionWithIntervals() {
     intervalMap.set(interval.driver_number, interval);
   });
 
-  const merged = mergePositionIntervalData(positions, intervalMap);
+  const merged = testMergePositionIntervalData(positions, intervalMap);
 
   return merged.sort((a, b) => a.position - b.position);
 }
 
-function mergePositionIntervalData(positions, intervalMap) {
+function testMergePositionIntervalData(positions, intervalMap) {
   return positions.map((position) => {
     const interval = intervalMap.get(position.driver_number) || {};
     const info = drivers[position.driver_number] || {};
@@ -35,4 +35,3 @@ function mergePositionIntervalData(positions, intervalMap) {
     };
   });
 }
-

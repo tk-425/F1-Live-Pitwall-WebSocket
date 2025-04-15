@@ -22,7 +22,7 @@ export const countryFlags = {
   KSA: 'https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/saudi-arabia-flag.png',
   MEX: 'https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/mexico-flag.png',
   MON: 'https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/monaco-flag.png',
-  NLD: 'https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/netherlands-flag.png',
+  NED: 'https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/netherlands-flag.png',
   NZL: 'https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/new-zealand-flag.png',
   QAT: 'https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/qatar-flag.png',
   SGP: 'https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/Flags%2016x9/singapore-flag.png',

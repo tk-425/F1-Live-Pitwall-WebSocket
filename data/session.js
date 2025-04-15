@@ -5,18 +5,12 @@ import { tryCatchSync } from '../utils/tryCatch.js';
 import { watchStatus } from '../utils/watchStatus.js';
 import { fetchSession } from '../webSocket/openF1Api.js';
 import { getScheduleByLocation } from './schedule.js';
-import { testSessionData } from '../test/testData.js';
 
 let latestSession = null;
 let latestAllSessions = null;
 
-// export function getLatestSession() {
-//   return latestSession;
-// }
-
-// TEST: Dummy session valid for 1 hour
 export function getLatestSession() {
-  return testSessionData;
+  return latestSession;
 }
 
 export function getAllSessions() {

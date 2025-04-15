@@ -4,15 +4,14 @@ import {
   setLatestGroupedIntervals,
 } from '../data/groupIntervals.js';
 import { updateIntervalSnapshot } from '../data/intervals.js';
-import { getLatestMeeting, initMeetingWatcher } from '../data/meeting.js';
-import { mergePositionWithIntervals } from '../data/mergeDriverData.js';
-import { getLatestPositions, updatePositionsData } from '../data/positions.js';
+import { initMeetingWatcher } from '../data/meeting.js';
+import { getTestLatestMeeting } from './testData.js';
+import { testMergePositionWithIntervals } from './testMergeData.js';
+import { updatePositionsData } from '../data/positions.js';
+import { getTestLatestPositions } from './testData.js';
 import { initScheduleWatcher } from '../data/schedule.js';
-import {
-  getLatestSession,
-  getScheduleForSession,
-  initSessionWatcher,
-} from '../data/session.js';
+import { getScheduleForSession, initSessionWatcher } from '../data/session.js';
+import { getTestLatestSession } from './testData.js';
 import { getStintsByDriverNumber, updateStints } from '../data/stints.js';
 import { printError, printMessage, printWarning } from '../utils/logger.js';
 import { SendDataType } from '../utils/sendDataType.js';
@@ -22,7 +21,7 @@ import { isMergedDataStale } from '../webSocket/webSocket.js';
 await initMeetingWatcher(5000);
 await initSessionWatcher(5000);
 await updateStints();
-const session = getLatestSession();
+const session = getTestLatestSession();
 
 // TEST
 testMeeting();
@@ -35,7 +34,7 @@ await testIntervalsAndPositions(session);
 /* --------------------------------------------------------------------- */
 // TEST FUNCTIONS
 function testMeeting() {
-  printMessage(SendDataType.MEETING, getLatestMeeting());
+  printMessage(SendDataType.MEETING, getTestLatestMeeting());
   divider();
 }
 
@@ -72,7 +71,7 @@ async function testIntervalsAndPositions(session) {
   updateIntervalSnapshot(intervals);
   updatePositionsData(positions);
 
-  const merged = mergePositionWithIntervals();
+  const merged = testMergePositionWithIntervals();
   const grouped = groupDriversByInterval(merged);
 
   setLatestGroupedIntervals(grouped);
@@ -86,7 +85,7 @@ async function testIntervalsAndPositions(session) {
   printMessage(SendDataType.INTERVALS, groupedInterval);
   divider();
 
-  printMessage(SendDataType.POSITIONS, getLatestPositions());
+  printMessage(SendDataType.POSITIONS, getTestLatestPositions());
   divider();
 }
 

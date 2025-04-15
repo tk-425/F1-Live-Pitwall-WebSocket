@@ -5,39 +5,21 @@ import ServerAlert from './ServerAlert';
 import { sessionDataType } from '@/utils/sessionDataType';
 import SessionAlert from './SessionAlert';
 import Image from 'next/image';
-import { teamIconFit } from '@/style/style';
+import { flagIconFit, teamIconFit } from '@/style/style';
 
 export default function Header() {
   const { isServerDisconnected } = useWebSocketContext();
   const [showServerAlert, setShowServerAlert] = useState(true);
-  const [showSessionAlert, setShowSessionAlert] = useState(true);
+  // const [showSessionAlert, setShowSessionAlert] = useState(true);
 
   const nextRace = useMemo(() => {
     const now = new Date();
     return schedule_2025.find((race) => new Date(race.sessions.gp) >= now);
   });
 
-  const nextSessionType = useMemo(() => {
-    const now = new Date();
-
-    const allSessions = schedule_2025.flatMap((race) =>
-      Object.entries(race.sessions).map(([type, date]) => ({
-        type,
-        date: new Date(date),
-      }))
-    );
-
-    const upcoming = allSessions
-      .filter((session) => session.date >= now)
-      .sort((a, b) => a.date - b.date);
-
-    return upcoming[0]?.type ?? null;
-  }, []);
-
   const currentSessionType = useMemo(() => {
     const now = new Date();
 
-    // Flatten all sessions across races
     const allSessions = schedule_2025.flatMap((race) =>
       Object.entries(race.sessions).map(([type, date]) => ({
         type,
@@ -46,18 +28,25 @@ export default function Header() {
       }))
     );
 
-    // Step 2: Sort all sessions globally
     const sorted = allSessions.sort((a, b) => a.date - b.date);
 
-    // Step 3: Find current session window: session.date <= now < next.date
-    for (let i = 0; i < sorted.length; i++) {
-      const current = sorted[i];
-      const next = sorted[i + 1];
+    // First: look for current session
+    for (let session of sorted) {
+      const bufferHours = session.type.toLowerCase() === 'gp' ? 5 : 2;
+      const sessionEnd = new Date(
+        session.date.getTime() + bufferHours * 60 * 60 * 1000
+      );
 
-      const isInWindow = now >= current.date && (!next || now < next.date);
+      // Return the current session if the session is on going
+      if (now >= session.date && now < sessionEnd) {
+        return session;
+      }
+    }
 
-      if (isInWindow) {
-        return current.type;
+    // Return the next session if the session is ended
+    for (let session of sorted) {
+      if (now < session.date) {
+        return session;
       }
     }
 
@@ -76,9 +65,9 @@ export default function Header() {
             <>
               <Image
                 src={nextRace.flag}
-                width={50}
-                height={50}
-                className={`${teamIconFit} rounded`}
+                width={70}
+                height={70}
+                className={`${flagIconFit}`}
                 alt='Race Flag'
               />
               <span className='mx-2'>
@@ -95,10 +84,10 @@ export default function Header() {
         <ServerAlert setAlert={setShowServerAlert} />
       )}
 
-      {currentSessionType && showSessionAlert && (
+      {currentSessionType && (
         <SessionAlert
-          setAlert={setShowSessionAlert}
-          session={sessionDataType[currentSessionType]}
+          session={sessionDataType[currentSessionType.type]}
+          sessionDate={currentSessionType.date}
         />
       )}
     </>

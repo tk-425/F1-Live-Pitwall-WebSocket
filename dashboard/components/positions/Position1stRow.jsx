@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import DriverBadge from '../icons/drivers/DriverBadge';
 import { drivers } from '@/info/Info_drivers';
-import { teamIcons } from '@/public/assets/images/teamIcons/teamIcons';
+import { constructorIcons } from '@/info/utils/constructorIcons';
 import { teamIconFit } from '@/style/style';
 import { useWebSocketContext } from '@/context/WebSocketContext';
-import getInterval from '../utils/getIntervals';
+import { getInterval } from '@/utils/util_interval';
 
 export default function Position1stRow({ position, startIndex, index }) {
   const { allIntervals } = useWebSocketContext();
@@ -16,11 +16,11 @@ export default function Position1stRow({ position, startIndex, index }) {
       </div>
 
       <Image
-        src={teamIcons[drivers[position.driver_number].constructor]}
+        src={constructorIcons[drivers[position.driver_number].constructor]}
         width={30}
         height={30}
         className={`${teamIconFit} mx-4`}
-        alt={`drivers[position.driver_number].constructor`}
+        alt={`drivers[position.driver_number].constructor || 'team-icon`}
       />
 
       <DriverBadge

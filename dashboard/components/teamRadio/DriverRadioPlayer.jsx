@@ -12,12 +12,17 @@ export default function DriverRadioPlayer({ driverNumber, radios }) {
     }));
 
   const audioRef = useRef(null);
+  const trackCount = tracks.length;
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [showPlaylist, setShowPlaylist] = useState(false);
+  const [lastTrackCount, setLastTrackCount] = useState(trackCount);
+  const [showDot, setShowDot] = useState(false);
 
+  // Radio play track
   useEffect(() => {
     const audio = audioRef.current;
 
@@ -39,10 +44,6 @@ export default function DriverRadioPlayer({ driverNumber, radios }) {
       audio.removeEventListener('loadedmetadata', setAudioDuration);
     };
   }, [currentTrackIndex]);
-
-  const trackCount = tracks.length;
-  const [lastTrackCount, setLastTrackCount] = useState(trackCount);
-  const [showDot, setShowDot] = useState(false);
 
   // Show flashing dot when track count increases
   useEffect(() => {

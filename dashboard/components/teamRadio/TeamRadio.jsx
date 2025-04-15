@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { useWebSocketContext } from '@/context/WebSocketContext';
 import DriverRadioPlayer from './DriverRadioPlayer';
 import { combineTeamRadiosByConstructor } from '@/utils/flattenRadioTracks';
-import { teamIcons } from '@/public/assets/images/teamIcons/teamIcons';
+import { constructorIcons } from '@/info/utils/constructorIcons';
 import { teamIconFit } from '@/style/style';
 import Unavailable from '../utils/Unavailable';
 import { ActiveViewType } from '@/utils/activeViewType';
@@ -16,20 +16,20 @@ export default function TeamRadioPlayer() {
   }
 
   return (
-    <div className='mt-6'>
+    <div className='mt-6 mb-4'>
       {Object.keys(teamRadioByConstructor).map((constructor) => (
         <div key={constructor}>
-          <div className='flex text-lg font-bold'>
+          <div className='flex text-lg items-center font-bold'>
             <Image
-              src={teamIcons[constructor]}
-              width={20}
-              height={20}
+              src={constructorIcons[constructor]}
+              width={26}
+              height={26}
               className={teamIconFit}
-              alt={`${constructor} logo`}
+              alt={`${constructor} || 'constructor-logo`}
             />
             <span>{constructor}</span>
           </div>
-          <div>
+          <div className='mb-3'>
             {Object.values(teamRadioByConstructor[constructor]).map(
               (driver) => (
                 <DriverRadioPlayer

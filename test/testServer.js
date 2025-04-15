@@ -19,7 +19,9 @@ async function startTestWebSocket() {
 
   // Start listening
   server.listen(PORT, () => {
-    printInfo(`🛜 F1-LiveUpdater Server is running on http://localhost:${PORT}`);
+    printInfo(
+      `🩻 TEST: F1-LiveUpdater Server is running on http://localhost:${PORT}`
+    );
   });
 }
 
