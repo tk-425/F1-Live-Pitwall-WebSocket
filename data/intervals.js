@@ -1,16 +1,10 @@
 import { printMessage } from '../utils/logger.js';
-import { testIntervalsData } from '../test/testData.js';
 
 const latestIntervalData = new Map();
 
 // Get the latest interval data
-// export function getLatestInterval() {
-//   return Array.from(latestIntervalData.values());
-// }
-
-// TEST: Dummy interval data
 export function getLatestInterval() {
-  return Array.from(testIntervalsData.values());
+  return Array.from(latestIntervalData.values());
 }
 
 // Update the latest interval data per driver

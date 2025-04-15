@@ -3,9 +3,10 @@ import { drivers } from '@/info/Info_drivers';
 import DriverBadge from '@/components/icons/drivers/DriverBadge';
 import Unavailable from '../utils/Unavailable';
 import { ActiveViewType } from '@/utils/activeViewType';
-import { teamIcons } from '@/public/assets/images/teamIcons/teamIcons';
+import { constructorIcons } from '@/info/utils/constructorIcons';
 import { teamIconFit } from '@/style/style';
 import Image from 'next/image';
+import { formatGap, formatInterval } from '../../utils/util_interval';
 
 export default function Intervals() {
   const { intervals } = useWebSocketContext();
@@ -14,28 +15,8 @@ export default function Intervals() {
     return <Unavailable message={ActiveViewType.INTERVALS} />;
   }
 
-  function formatInterval(interval, gapToLeader) {
-    if (interval === null && gapToLeader === 0) {
-      return 'Leader';
-    }
-
-    if (typeof interval === 'number') {
-      return interval.toFixed(3);
-    }
-
-    return 'N/A';
-  }
-
-  function formatGap(gapToLeader) {
-    if (gapToLeader === null || gapToLeader === 0) {
-      return 'Leader';
-    }
-
-    return gapToLeader.toFixed(3);
-  }
-
   return (
-    <div className='mt-6'>
+    <div className='mt-6 mb-4'>
       {intervals.map((group, groupIndex) => (
         <div
           key={groupIndex}
@@ -54,11 +35,13 @@ export default function Intervals() {
                 </span>
 
                 <Image
-                  src={teamIcons[drivers[driver.driver_number].constructor]}
+                  src={
+                    constructorIcons[drivers[driver.driver_number].constructor]
+                  }
                   width={26}
                   height={26}
                   className={`${teamIconFit} mx-4`}
-                  alt={`drivers[driver.driver_number].constructor`}
+                  alt={`drivers[driver.driver_number].constructor || 'constructor-logo`}
                 />
 
                 {/* Driver Badge */}

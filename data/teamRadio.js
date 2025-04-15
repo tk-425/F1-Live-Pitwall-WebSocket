@@ -1,17 +1,11 @@
 import { fetchTeamRadio } from '../webSocket/openF1Api.js';
 import { tryCatchSync } from '../utils/tryCatch.js';
-import { testTeamRadioData } from '../test/testData.js';
 import { printMessage } from '../utils/logger.js';
 
 let latestTeamRadio = new Map();
 
-// export function getLatestTeamRadio() {
-//   return Array.from(latestTeamRadio.values());
-// }
-
-// TEST: Dummy team radio data
 export function getLatestTeamRadio() {
-  return Array.from(testTeamRadioData.values());
+  return Array.from(latestTeamRadio.values());
 }
 
 export function getTeamRadioByDriver(driverNumber) {

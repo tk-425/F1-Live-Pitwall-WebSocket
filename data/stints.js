@@ -1,4 +1,3 @@
-import { testStintsData } from '../test/testData.js';
 import { checkError } from '../utils/checkArrayError.js';
 import { printMessage } from '../utils/logger.js';
 import { SendDataType } from '../utils/sendDataType.js';
@@ -7,13 +6,8 @@ import { fetchStints } from '../webSocket/openF1Api.js';
 
 let latestStints = new Map();
 
-// export function getLatestStints() {
-//   return Array.from(latestStints.values());
-// }
-
-// TEST: Dummy Stints
 export function getLatestStints() {
-  return Array.from(testStintsData.values());
+  return Array.from(latestStints.values());
 }
 
 export async function updateStints() {

@@ -4,17 +4,11 @@ import { SendDataType } from '../utils/sendDataType.js';
 import { tryCatchSync } from '../utils/tryCatch.js';
 import { watchStatus } from '../utils/watchStatus.js';
 import { fetchMeeting } from '../webSocket/openF1Api.js';
-import { testMeetingData } from '../test/testData.js';
 
 let latestMeeting = null;
 
-// export function getLatestMeeting() {
-//   return latestMeeting;
-// }
-
-// TEST: Dummy meeting data
 export function getLatestMeeting() {
-  return testMeetingData;
+  return latestMeeting;
 }
 
 export async function initMeetingWatcher(interval = 10 * 60 * 1000) {

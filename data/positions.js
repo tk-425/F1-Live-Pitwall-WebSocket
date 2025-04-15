@@ -1,18 +1,10 @@
-import { testPositionsData } from '../test/testData.js';
 import { printMessage } from '../utils/logger.js';
 
 const latestPositionData = new Map();
 
 // Get the latest position data, sorted by position
-// export function getLatestPositions() {
-//   return Array.from(latestPositionData.values()).sort(
-//     (a, b) => a.position - b.position
-//   );
-// }
-
-// TEST: Dummy position data
 export function getLatestPositions() {
-  return Array.from(testPositionsData.values()).sort(
+  return Array.from(latestPositionData.values()).sort(
     (a, b) => a.position - b.position
   );
 }

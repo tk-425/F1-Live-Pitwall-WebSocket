@@ -3,12 +3,13 @@
 import Header from '@/components/header/Header';
 import TeamRadioPlayer from '@/components/teamRadio/TeamRadio';
 import { WebSocketProvider } from '@/context/WebSocketContext';
-import { centerDiv } from '@/style/style';
+import { pageStyle } from '@/style/style';
 import Menu from '@/components/menu/Menu';
 import { useState } from 'react';
 import { ActiveViewType } from '@/utils/activeViewType';
 import Intervals from '@/components/intervals/Intervals';
 import Positions from '@/components/positions/Positions';
+import Footer from '@/components/footer/Footer';
 
 export default function Home() {
   const [activeView, setActiveView] = useState(ActiveViewType.INTERVALS);
@@ -28,13 +29,14 @@ export default function Home() {
 
   return (
     <WebSocketProvider>
-      <div className={centerDiv}>
+      <div className={pageStyle}>
         <Header />
         <Menu
           activeView={activeView}
           setActiveView={setActiveView}
         />
         <div>{renderView()}</div>
+        <Footer />
       </div>
     </WebSocketProvider>
   );

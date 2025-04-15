@@ -10,7 +10,9 @@ export default function Menu({ activeView, setActiveView }) {
       {Object.entries(ActiveViewType).map(([key, label]) => (
         <button
           className={`px-4 cursor-pointer ${
-            activeView === label ? 'underline underline-offset-8 text-blue-500 font-bold' : 'font-bold'
+            activeView === label
+              ? 'underline underline-offset-8 text-blue-500 font-bold'
+              : 'font-bold'
           }`}
           key={key}
           onClick={() => setActiveView(label)}

@@ -362,7 +362,7 @@ export const schedule_2025 = [
   {
     name: 'Brazilian',
     race_name: 'MSC CRUISES GRANDE PRÊMIO DE SÃO PAULO',
-    location: 'Sao Paulo',
+    location: 'São Paulo',
     latitude: -23.7014,
     longitude: -46.6969,
     round: 21,

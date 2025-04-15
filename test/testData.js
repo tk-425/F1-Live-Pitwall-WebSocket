@@ -1334,3 +1334,35 @@ export const testTeamRadioData = [
     ],
   },
 ];
+
+// TEST: Dummy team radio data
+export function getTestLatestTeamRadio() {
+  return Array.from(testTeamRadioData.values());
+}
+
+// TEST: Dummy Stints
+export function getTestLatestStints() {
+  return Array.from(testStintsData.values());
+}
+
+// TEST: Dummy session valid for 1 hour
+export function getTestLatestSession() {
+  return testSessionData;
+}
+
+// TEST: Dummy position data
+export function getTestLatestPositions() {
+  return Array.from(testPositionsData.values()).sort(
+    (a, b) => a.position - b.position
+  );
+}
+
+// TEST: Dummy meeting data
+export function getTestLatestMeeting() {
+  return testMeetingData;
+}
+
+// TEST: Dummy interval data
+export function getTestLatestInterval() {
+  return Array.from(testIntervalsData.values());
+}

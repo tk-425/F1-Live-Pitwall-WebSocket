@@ -7,12 +7,12 @@ import {
   groupDriversByInterval,
   setLatestGroupedIntervals,
 } from '../data/groupIntervals.js';
-import { mergePositionWithIntervals } from '../data/mergeDriverData.js';
+import { testMergePositionWithIntervals } from './testMergeData.js';
 import { broadcastToClient } from '../webSocket/broadcast.js';
-import { getLatestSession } from '../data/session.js';
-import { getLatestStints } from '../data/stints.js';
-import { getLatestTeamRadio } from '../data/teamRadio.js';
-import { getLatestMeeting } from '../data/meeting.js';
+import { getTestLatestSession } from './testData.js';
+import { getTestLatestStints } from './testData.js';
+import { getTestLatestTeamRadio } from './testData.js';
+import { getTestLatestMeeting } from './testData.js';
 import { getScheduleByLocation } from '../data/schedule.js';
 import { printMessage } from '../utils/logger.js';
 
@@ -103,13 +103,13 @@ export function simulateTeamRadioUpdates(wss) {
 }
 
 function emitUpdatedData(wss) {
-  const session = getLatestSession();
-  const stints = getLatestStints();
-  const teamRadio = getLatestTeamRadio();
-  const meeting = getLatestMeeting();
+  const session = getTestLatestSession();
+  const stints = getTestLatestStints();
+  const teamRadio = getTestLatestTeamRadio();
+  const meeting = getTestLatestMeeting();
   const schedule = getScheduleByLocation(session.location);
 
-  const merged = mergePositionWithIntervals();
+  const merged = testMergePositionWithIntervals();
   const grouped = groupDriversByInterval(merged);
 
   setLatestGroupedIntervals(grouped);
