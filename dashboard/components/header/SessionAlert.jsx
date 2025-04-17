@@ -1,27 +1,14 @@
 import { useState, useMemo } from 'react';
 import CloseIcon from '../icons/header/CloseIcon';
+import { getSessionStatusLabel } from '@/utils/sessionUtils';
 
-export default function SessionAlert({ session, sessionDate }) {
+export default function SessionAlert({ session, sessionDate, sessionType }) {
   const [minimized, setMinimized] = useState(false);
 
-  const sessionStatusLabel = useMemo(() => {
-    if (!session || !sessionDate) return 'Session';
-
-    const now = new Date();
-    const start = new Date(sessionDate);
-    const delayHours = session.toLowerCase() === 'gp' ? 5 : 2;
-    const end = new Date(start.getTime() + delayHours * 60 * 60 * 1000);
-
-    if (now >= start && now < end) {
-      return 'Current Session';
-    }
-
-    if (now < start) {
-      return 'Next Session';
-    }
-
-    return 'Session Ended';
-  }, [session, sessionDate]);
+  const sessionStatusLabel = useMemo(
+    () => getSessionStatusLabel(session, sessionDate, sessionType),
+    [session, sessionDate]
+  );
 
   return (
     <div className='fixed top-4 left-4 z-50'>
@@ -30,7 +17,7 @@ export default function SessionAlert({ session, sessionDate }) {
           onClick={() => setMinimized(false)}
           className='bg-blue-600 text-white px-3 py-2 rounded-full shadow-lg text-sm font-semibold hover:bg-blue-500 transition'
         >
-          {session.toUpperCase()}
+          {session && sessionType ? sessionType.toUpperCase() : 'SESSION'}
         </button>
       ) : (
         <div className='bg-blue-600 text-white px-4 py-3 rounded-lg shadow-lg max-w-xs'>
