@@ -1,5 +1,5 @@
 import { envConfig } from '../utils/dotenv.config.js';
-import { WebSocket, WebSocketServer } from 'ws';
+import { WebSocketServer } from 'ws';
 import { setupHeartbeat } from '../webSocket/setupHeartbeat.js';
 import { setupWebSocketLifecycle } from '../webSocket/setupWebSocketLifecycle.js';
 import { handleClientHandshake } from '../webSocket/handleClientHandshake.js';
@@ -24,10 +24,7 @@ import {
   groupDriversByInterval,
   setLatestGroupedIntervals,
 } from '../data/groupIntervals.js';
-import {
-  broadcastAllToClient,
-  broadcastToClient,
-} from '../webSocket/broadcast.js';
+import { broadcastToClient } from '../webSocket/broadcast.js';
 import {
   getScheduleByLocation,
   initScheduleWatcher,
@@ -35,8 +32,11 @@ import {
 import {
   simulateIntervalChange,
   simulateStintChange,
-  simulateTeamRadioUpdates,
 } from './testSimulator.js';
+import {
+  isMergedDataStale,
+  isSessionExpired,
+} from '../utils/webSocketUtils.js';
 
 const PORT = envConfig.PORT;
 let previousMeetingKey = null;
@@ -102,19 +102,6 @@ function startDataUpdater(wss, interval) {
       return;
     }
 
-    // if (!Array.isArray(intervals)) {
-    //   handleEmptyIntervals(
-    //     wss,
-    //     positions,
-    //     session,
-    //     stints,
-    //     teamRadio,
-    //     meeting,
-    //     currentSchedule
-    //   );
-    //   return;
-    // }
-
     updateInterval(intervals);
     updatePositionsData(positions);
 
@@ -141,74 +128,4 @@ function startDataUpdater(wss, interval) {
       currentSchedule
     );
   }, interval);
-}
-
-function isSessionExpired(session) {
-  if (!session) {
-    printWarning('🚫 No session object found.');
-    return true;
-  }
-
-  const now = new Date();
-  const originalEnd = session.date_end ? new Date(session.date_end) : null;
-
-  if (!originalEnd || isNaN(originalEnd)) {
-    printWarning(
-      '⚠️ session.date_end is missing or invalid. Assuming session is active.'
-    );
-    return false;
-  }
-
-  // 1 hour buffer for session delay (e.g. red flag, weather, etc.)
-  const BUFFER_MS = 60 * 60 * 1000;
-  const adjustedEnd = new Date(originalEnd.getTime() + BUFFER_MS);
-
-  return adjustedEnd < now;
-}
-
-export function isMergedDataStale(session, merged) {
-  if (!Array.isArray(merged) || merged.length === 0) {
-    return true;
-  }
-
-  const first = merged[0];
-
-  return session?.session_key !== first?.session_key;
-}
-
-function handleEmptyIntervals(
-  wss,
-  positions,
-  session,
-  stints,
-  teamRadio,
-  meeting,
-  currentSchedule
-) {
-  printWarning('TEST: F1-LiveUpdater returned empty intervals.');
-
-  // Clear grouped cache
-  setLatestGroupedIntervals([]);
-  // Still update positions
-  updatePositionsData(positions);
-
-  const mergedPositionsAndIntervals = testMergePositionWithIntervals();
-  const sortedMerged = mergedPositionsAndIntervals
-    .slice()
-    .sort((a, b) => a.position - b.position);
-
-  wss.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
-      broadcastAllToClient(client, {
-        mergedPositionsAndIntervals,
-        sortedMerged,
-        grouped: [],
-        session,
-        stints,
-        teamRadio,
-        meeting,
-        currentSchedule,
-      });
-    }
-  });
 }

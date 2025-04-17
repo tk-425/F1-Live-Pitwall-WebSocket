@@ -3,7 +3,7 @@ import {
   groupDriversByInterval,
   setLatestGroupedIntervals,
 } from '../data/groupIntervals.js';
-import { updateIntervalSnapshot } from '../data/intervals.js';
+import { updateInterval } from '../data/intervals.js';
 import { initMeetingWatcher } from '../data/meeting.js';
 import { getTestLatestMeeting } from './testData.js';
 import { testMergePositionWithIntervals } from './testMergeData.js';
@@ -15,7 +15,7 @@ import { getTestLatestSession } from './testData.js';
 import { getStintsByDriverNumber, updateStints } from '../data/stints.js';
 import { printError, printMessage, printWarning } from '../utils/logger.js';
 import { SendDataType } from '../utils/sendDataType.js';
-import { isMergedDataStale } from '../webSocket/webSocket.js';
+import { isMergedDataStale } from '../utils/webSocketUtils.js';
 
 // Fetch data from the API
 await initMeetingWatcher(5000);
@@ -68,7 +68,7 @@ async function testIntervalsAndPositions(session) {
     return;
   }
 
-  updateIntervalSnapshot(intervals);
+  updateInterval(intervals);
   updatePositionsData(positions);
 
   const merged = testMergePositionWithIntervals();

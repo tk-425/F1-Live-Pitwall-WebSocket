@@ -35,7 +35,7 @@ export default function Home() {
           activeView={activeView}
           setActiveView={setActiveView}
         />
-        <div>{renderView()}</div>
+        <>{renderView()}</>
         <Footer />
       </div>
     </WebSocketProvider>

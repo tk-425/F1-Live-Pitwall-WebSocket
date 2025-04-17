@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { useWebSocketContext } from '@/context/WebSocketContext';
 import Unavailable from '../utils/Unavailable';
 import { ActiveViewType } from '@/utils/activeViewType';
