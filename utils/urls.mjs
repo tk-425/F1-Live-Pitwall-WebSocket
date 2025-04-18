@@ -1,7 +1,7 @@
 import { envConfig } from './dotenv.config.mjs';
 import { schedule_2025 } from '../info/info_schedule2025.mjs';
 
-const BASE_URL = envConfig.API_URL;
+const BASE_URL = process.env.API_URL;
 
 const INTERVALS = `${BASE_URL}/intervals?session_key=latest`;
 const POSITIONS = `${BASE_URL}/position?session_key=latest`;
