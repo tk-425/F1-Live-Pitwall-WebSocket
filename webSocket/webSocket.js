@@ -11,7 +11,7 @@ import {
 } from '../utils/logger.js';
 import { sendInitData } from '../data/sendInitData.js';
 import { getLatestSession } from '../data/session.js';
-import { fetchMeeting } from './openF1Api.js';
+import { fetchMeeting } from './openF1Api.mjs';
 import { getLatestMeeting } from '../data/meeting.js';
 import { getLatestStints, updateStints } from '../data/stints.js';
 import { getLatestTeamRadio } from '../data/teamRadio.js';

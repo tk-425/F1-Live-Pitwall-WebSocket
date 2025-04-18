@@ -3,7 +3,7 @@ import { printMessage, printWarning } from '../utils/logger.js';
 import { SendDataType } from '../utils/sendDataType.js';
 import { tryCatchSync } from '../utils/tryCatch.js';
 import { watchStatus } from '../utils/watchStatus.js';
-import { fetchMeeting } from '../webSocket/openF1Api.js';
+import { fetchMeeting } from '../webSocket/openF1Api.mjs';
 
 let latestMeeting = null;
 
