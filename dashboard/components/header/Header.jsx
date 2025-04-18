@@ -22,7 +22,7 @@ export default function Header() {
       <header className='mt-6'>
         <div className='flex justify-center items-center text-4xl font-bold mb-4'>
           <div className='mr-2 italic font-mono text-red-600'>F1</div>
-          <div className=''>Live Updater</div>
+          <div className=''>Live Pitwall</div>
         </div>
         <div className='flex flex-row items-center text-center font-bold text-xl'>
           {sessionToDisplay && (

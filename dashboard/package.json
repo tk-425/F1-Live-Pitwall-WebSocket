@@ -1,6 +1,6 @@
 {
-  "name": "dashboard",
-  "version": "0.1.0",
+  "name": "f1-live-pitwall-frontend",
+  "version": "0.0.4",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3030",
