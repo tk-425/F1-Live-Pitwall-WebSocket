@@ -34,7 +34,7 @@ import {
   isSessionExpired,
 } from '../utils/webSocketUtils.mjs';
 
-const PORT = envConfig.PORT;
+const PORT = process.env.PORT;
 let previousMeetingKey = null;
 
 export function createWebSocketServer(server, interval = 4000) {

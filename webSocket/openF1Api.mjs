@@ -4,7 +4,7 @@ import { URLS } from '../utils/urls.mjs';
 import { tryCatchSync } from '../utils/tryCatch.mjs';
 import { printError } from '../utils/logger.mjs';
 
-const MAX_RETRIES = envConfig.MAX_RETRIES || 5;
+const MAX_RETRIES = process.env.MAX_RETRIES || 5;
 
 async function fetchWithRetry(url, retries = MAX_RETRIES) {
   while (retries > 0) {

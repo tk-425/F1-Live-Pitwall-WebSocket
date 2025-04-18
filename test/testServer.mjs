@@ -5,7 +5,7 @@ import { createTestWebSocketServer } from './testWebSocket.mjs';
 import { printInfo } from '../utils/logger.mjs';
 import { initSessionWatcher } from '../data/session.mjs';
 
-const PORT = envConfig.PORT;
+const PORT = process.env.PORT;
 
 async function startTestWebSocket() {
   const server = http.createServer();
