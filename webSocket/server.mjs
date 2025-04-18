@@ -1,12 +1,10 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import http from 'http';
-import { envConfig } from '../utils/dotenv.config.mjs';
 import { initMeetingWatcher } from '../data/meeting.mjs';
 import { createWebSocketServer } from './webSocket.mjs';
 import { printInfo } from '../utils/logger.mjs';
 import { initSessionWatcher } from '../data/session.mjs';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const PORT = process.env.PORT;
 
