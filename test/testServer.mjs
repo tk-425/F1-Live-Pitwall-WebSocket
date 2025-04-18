@@ -4,6 +4,9 @@ import { initMeetingWatcher } from '../data/meeting.mjs';
 import { createTestWebSocketServer } from './testWebSocket.mjs';
 import { printInfo } from '../utils/logger.mjs';
 import { initSessionWatcher } from '../data/session.mjs';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const PORT = process.env.PORT;
 
