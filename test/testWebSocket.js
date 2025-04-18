@@ -11,7 +11,7 @@ import {
 } from '../utils/logger.js';
 import { testSendInitData } from './testSendInitData.js';
 import { getTestLatestSession } from './testData.js';
-import { fetchMeeting } from '../webSocket/openF1Api.js';
+import { fetchMeeting } from '../webSocket/openF1Api.mjs';
 import { getTestLatestMeeting } from './testData.js';
 import { updateStints } from '../data/stints.js';
 import { getTestLatestStints } from './testData.js';

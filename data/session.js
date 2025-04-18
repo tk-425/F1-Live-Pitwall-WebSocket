@@ -3,7 +3,7 @@ import { printMessage, printWarning } from '../utils/logger.js';
 import { SendDataType } from '../utils/sendDataType.js';
 import { tryCatchSync } from '../utils/tryCatch.js';
 import { watchStatus } from '../utils/watchStatus.js';
-import { fetchSession } from '../webSocket/openF1Api.js';
+import { fetchSession } from '../webSocket/openF1Api.mjs';
 import { getScheduleByLocation } from './schedule.js';
 
 let latestSession = null;

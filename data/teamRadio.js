@@ -1,4 +1,4 @@
-import { fetchTeamRadio } from '../webSocket/openF1Api.js';
+import { fetchTeamRadio } from '../webSocket/openF1Api.mjs';
 import { tryCatchSync } from '../utils/tryCatch.js';
 import { printMessage } from '../utils/logger.js';
 

@@ -2,7 +2,7 @@ import { checkError } from '../utils/checkArrayError.js';
 import { printMessage } from '../utils/logger.js';
 import { SendDataType } from '../utils/sendDataType.js';
 import { tryCatchSync } from '../utils/tryCatch.js';
-import { fetchStints } from '../webSocket/openF1Api.js';
+import { fetchStints } from '../webSocket/openF1Api.mjs';
 
 let latestStints = new Map();
 

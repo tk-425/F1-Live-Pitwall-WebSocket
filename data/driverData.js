@@ -1,5 +1,5 @@
 import { tryCatchSync } from '../utils/tryCatch.js';
-import { fetchIntervals, fetchPositions } from '../webSocket/openF1Api.js';
+import { fetchIntervals, fetchPositions } from '../webSocket/openF1Api.mjs';
 
 export async function fetchDriverData() {
   const [intervals, intervalError] = await tryCatchSync(fetchIntervals());
