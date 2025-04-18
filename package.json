@@ -2,10 +2,10 @@
   "name": "f1-live-pitwall",
   "version": "0.0.4",
   "description": "",
-  "main": "index.js",
+  "main": "webSocket/server.mj",
   "scripts": {
-    "start": "node webSocket/server.js",
-    "testServer": "node test/testServer.js"
+    "start": "node webSocket/server.mjs",
+    "testServer": "node test/testServer.mjs"
   },
   "keywords": [],
   "author": "",
