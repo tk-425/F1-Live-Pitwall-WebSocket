@@ -1,5 +1,8 @@
 import { envConfig } from './dotenv.config.mjs';
 import { schedule_2025 } from '../info/info_schedule2025.mjs';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const BASE_URL = process.env.API_URL;
 

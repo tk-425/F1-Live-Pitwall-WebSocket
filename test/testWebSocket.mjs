@@ -37,6 +37,9 @@ import {
   isMergedDataStale,
   isSessionExpired,
 } from '../utils/webSocketUtils.mjs';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const PORT = process.env.PORT;
 let previousMeetingKey = null;

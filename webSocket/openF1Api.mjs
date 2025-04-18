@@ -3,6 +3,9 @@ import axios from 'axios';
 import { URLS } from '../utils/urls.mjs';
 import { tryCatchSync } from '../utils/tryCatch.mjs';
 import { printError } from '../utils/logger.mjs';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const MAX_RETRIES = process.env.MAX_RETRIES || 5;
 
