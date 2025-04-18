@@ -41,8 +41,4 @@ async function checkAndUpdateMeeting() {
   }
 
   latestMeeting = newest;
-
-  // printMessage(
-  //   `📅 Latest meeting name: ${latestMeeting.meeting_official_name}`
-  // );
 }
