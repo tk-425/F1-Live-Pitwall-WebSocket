@@ -1,5 +1,5 @@
-import { schedule_2025 } from '../info/info_schedule2025.js';
-import { printMessage, printWarning } from '../utils/logger.js';
+import { schedule_2025 } from '../info/info_schedule2025.mjs';
+import { printMessage, printWarning } from '../utils/logger.mjs';
 
 let allSchedules = null;
 

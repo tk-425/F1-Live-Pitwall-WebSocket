@@ -1,6 +1,6 @@
-import { countryFlags } from './info_countryFlags.js';
-import { constructors } from './info_constructors.js';
-import { currentYear } from '../utils/currentYear.js';
+import { countryFlags } from './info_countryFlags.mjs';
+import { constructors } from './info_constructors.mjs';
+import { currentYear } from '../utils/currentYear.mjs';
 
 export const drivers = {
   // Alpine

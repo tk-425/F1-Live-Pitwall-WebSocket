@@ -1,6 +1,6 @@
-import { drivers } from '../info/info_drivers.js';
-import { getLatestInterval } from './intervals.js';
-import { getLatestPositions } from './positions.js';
+import { drivers } from '../info/info_drivers.mjs';
+import { getLatestInterval } from './intervals.mjs';
+import { getLatestPositions } from './positions.mjs';
 
 // Merge latest position and interval data into one driver object
 export function mergePositionWithIntervals() {

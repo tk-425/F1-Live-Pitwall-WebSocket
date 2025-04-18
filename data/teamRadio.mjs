@@ -1,6 +1,6 @@
 import { fetchTeamRadio } from '../webSocket/openF1Api.mjs';
-import { tryCatchSync } from '../utils/tryCatch.js';
-import { printMessage } from '../utils/logger.js';
+import { tryCatchSync } from '../utils/tryCatch.mjs';
+import { printMessage } from '../utils/logger.mjs';
 
 let latestTeamRadio = new Map();
 

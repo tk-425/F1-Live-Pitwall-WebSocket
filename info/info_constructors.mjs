@@ -1,4 +1,4 @@
-import { currentYear } from '../utils/currentYear.js';
+import { currentYear } from '../utils/currentYear.mjs';
 
 export const constructors = {
   Alpine: {

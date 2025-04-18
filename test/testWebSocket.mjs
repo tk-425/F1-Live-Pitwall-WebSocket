@@ -1,42 +1,42 @@
-import { envConfig } from '../utils/dotenv.config.js';
+import { envConfig } from '../utils/dotenv.config.mjs';
 import { WebSocketServer } from 'ws';
-import { setupHeartbeat } from '../webSocket/setupHeartbeat.js';
-import { setupWebSocketLifecycle } from '../webSocket/setupWebSocketLifecycle.js';
-import { handleClientHandshake } from '../webSocket/handleClientHandshake.js';
+import { setupHeartbeat } from '../webSocket/setupHeartbeat.mjs';
+import { setupWebSocketLifecycle } from '../webSocket/setupWebSocketLifecycle.mjs';
+import { handleClientHandshake } from '../webSocket/handleClientHandshake.mjs';
 import {
   printMessage,
   printError,
   printInfo,
   printWarning,
-} from '../utils/logger.js';
-import { testSendInitData } from './testSendInitData.js';
-import { getTestLatestSession } from './testData.js';
+} from '../utils/logger.mjs';
+import { testSendInitData } from './testSendInitData.mjs';
+import { getTestLatestSession } from './testData.mjs';
 import { fetchMeeting } from '../webSocket/openF1Api.mjs';
-import { getTestLatestMeeting } from './testData.js';
-import { updateStints } from '../data/stints.js';
-import { getTestLatestStints } from './testData.js';
-import { getTestLatestTeamRadio } from './testData.js';
-import { fetchDriverData } from '../data/driverData.js';
-import { updateInterval } from '../data/intervals.js';
-import { updatePositionsData } from '../data/positions.js';
-import { testMergePositionWithIntervals } from './testMergeData.js';
+import { getTestLatestMeeting } from './testData.mjs';
+import { updateStints } from '../data/stints.mjs';
+import { getTestLatestStints } from './testData.mjs';
+import { getTestLatestTeamRadio } from './testData.mjs';
+import { fetchDriverData } from '../data/driverData.mjs';
+import { updateInterval } from '../data/intervals.mjs';
+import { updatePositionsData } from '../data/positions.mjs';
+import { testMergePositionWithIntervals } from './testMergeData.mjs';
 import {
   groupDriversByInterval,
   setLatestGroupedIntervals,
-} from '../data/groupIntervals.js';
-import { broadcastToClient } from '../webSocket/broadcast.js';
+} from '../data/groupIntervals.mjs';
+import { broadcastToClient } from '../webSocket/broadcast.mjs';
 import {
   getScheduleByLocation,
   initScheduleWatcher,
-} from '../data/schedule.js';
+} from '../data/schedule.mjs';
 import {
   simulateIntervalChange,
   simulateStintChange,
-} from './testSimulator.js';
+} from './testSimulator.mjs';
 import {
   isMergedDataStale,
   isSessionExpired,
-} from '../utils/webSocketUtils.js';
+} from '../utils/webSocketUtils.mjs';
 
 const PORT = envConfig.PORT;
 let previousMeetingKey = null;

@@ -1,4 +1,4 @@
-import { tryCatchSync } from '../utils/tryCatch.js';
+import { tryCatchSync } from '../utils/tryCatch.mjs';
 import { fetchIntervals, fetchPositions } from '../webSocket/openF1Api.mjs';
 
 export async function fetchDriverData() {

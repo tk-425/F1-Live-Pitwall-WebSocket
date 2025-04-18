@@ -1,8 +1,8 @@
-import { setLatestGroupedIntervals } from '../data/groupIntervals.js';
-import { mergePositionWithIntervals } from '../data/mergeDriverData.js';
-import { updatePositionsData } from '../data/positions.js';
-import { broadcastAllToClient } from '../webSocket/broadcast.js';
-import { printWarning } from './logger.js';
+import { setLatestGroupedIntervals } from '../data/groupIntervals.mjs';
+import { mergePositionWithIntervals } from '../data/mergeDriverData.mjs';
+import { updatePositionsData } from '../data/positions.mjs';
+import { broadcastAllToClient } from '../webSocket/broadcast.mjs';
+import { printWarning } from './logger.mjs';
 
 export function isSessionExpired(session) {
   if (!session) {

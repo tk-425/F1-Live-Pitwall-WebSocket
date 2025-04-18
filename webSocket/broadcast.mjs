@@ -1,6 +1,6 @@
 import { WebSocket } from 'ws';
-import { sendData } from './sendData.js';
-import { SendDataType } from '../utils/sendDataType.js';
+import { sendData } from './sendData.mjs';
+import { SendDataType } from '../utils/sendDataType.mjs';
 
 export function broadcastToClient(
   wss,

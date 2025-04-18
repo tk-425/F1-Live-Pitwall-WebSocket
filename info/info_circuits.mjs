@@ -1,4 +1,4 @@
-import { countryFlags } from './info_countryFlags';
+import { countryFlags } from './info_countryFlags.mjs';
 
 export const circuits = {
   // AUS

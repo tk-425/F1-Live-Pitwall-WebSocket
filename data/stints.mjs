@@ -1,7 +1,7 @@
-import { checkError } from '../utils/checkArrayError.js';
-import { printMessage } from '../utils/logger.js';
-import { SendDataType } from '../utils/sendDataType.js';
-import { tryCatchSync } from '../utils/tryCatch.js';
+import { checkError } from '../utils/checkArrayError.mjs';
+import { printMessage } from '../utils/logger.mjs';
+import { SendDataType } from '../utils/sendDataType.mjs';
+import { tryCatchSync } from '../utils/tryCatch.mjs';
 import { fetchStints } from '../webSocket/openF1Api.mjs';
 
 let latestStints = new Map();

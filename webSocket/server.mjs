@@ -1,9 +1,9 @@
 import http from 'http';
-import { envConfig } from '../utils/dotenv.config.js';
-import { initMeetingWatcher } from '../data/meeting.js';
-import { createWebSocketServer } from './webSocket.js';
-import { printInfo } from '../utils/logger.js';
-import { initSessionWatcher } from '../data/session.js';
+import { envConfig } from '../utils/dotenv.config.mjs';
+import { initMeetingWatcher } from '../data/meeting.mjs';
+import { createWebSocketServer } from './webSocket.mjs';
+import { printInfo } from '../utils/logger.mjs';
+import { initSessionWatcher } from '../data/session.mjs';
 
 const PORT = envConfig.PORT;
 

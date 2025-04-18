@@ -1,8 +1,8 @@
-import { envConfig } from '../utils/dotenv.config.js';
+import { envConfig } from '../utils/dotenv.config.mjs';
 import axios from 'axios';
-import { URLS } from '../utils/urls.js';
-import { tryCatchSync } from '../utils/tryCatch.js';
-import { printError } from '../utils/logger.js';
+import { URLS } from '../utils/urls.mjs';
+import { tryCatchSync } from '../utils/tryCatch.mjs';
+import { printError } from '../utils/logger.mjs';
 
 const MAX_RETRIES = envConfig.MAX_RETRIES || 5;
 

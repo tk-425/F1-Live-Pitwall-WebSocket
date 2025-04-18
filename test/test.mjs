@@ -1,21 +1,21 @@
-import { fetchDriverData } from '../data/driverData.js';
+import { fetchDriverData } from '../data/driverData.mjs';
 import {
   groupDriversByInterval,
   setLatestGroupedIntervals,
-} from '../data/groupIntervals.js';
-import { updateInterval } from '../data/intervals.js';
-import { initMeetingWatcher } from '../data/meeting.js';
-import { getTestLatestMeeting } from './testData.js';
-import { testMergePositionWithIntervals } from './testMergeData.js';
-import { updatePositionsData } from '../data/positions.js';
-import { getTestLatestPositions } from './testData.js';
-import { initScheduleWatcher } from '../data/schedule.js';
-import { getScheduleForSession, initSessionWatcher } from '../data/session.js';
-import { getTestLatestSession } from './testData.js';
-import { getStintsByDriverNumber, updateStints } from '../data/stints.js';
-import { printError, printMessage, printWarning } from '../utils/logger.js';
-import { SendDataType } from '../utils/sendDataType.js';
-import { isMergedDataStale } from '../utils/webSocketUtils.js';
+} from '../data/groupIntervals.mjs';
+import { updateInterval } from '../data/intervals.mjs';
+import { initMeetingWatcher } from '../data/meeting.mjs';
+import { getTestLatestMeeting } from './testData.mjs';
+import { testMergePositionWithIntervals } from './testMergeData.mjs';
+import { updatePositionsData } from '../data/positions.mjs';
+import { getTestLatestPositions } from './testData.mjs';
+import { initScheduleWatcher } from '../data/schedule.mjs';
+import { getScheduleForSession, initSessionWatcher } from '../data/session.mjs';
+import { getTestLatestSession } from './testData.mjs';
+import { getStintsByDriverNumber, updateStints } from '../data/stints.mjs';
+import { printError, printMessage, printWarning } from '../utils/logger.mjs';
+import { SendDataType } from '../utils/sendDataType.mjs';
+import { isMergedDataStale } from '../utils/webSocketUtils.mjs';
 
 // Fetch data from the API
 await initMeetingWatcher(5000);

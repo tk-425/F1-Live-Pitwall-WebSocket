@@ -1,10 +1,10 @@
-import { checkError } from '../utils/checkArrayError.js';
-import { printMessage, printWarning } from '../utils/logger.js';
-import { SendDataType } from '../utils/sendDataType.js';
-import { tryCatchSync } from '../utils/tryCatch.js';
-import { watchStatus } from '../utils/watchStatus.js';
+import { checkError } from '../utils/checkArrayError.mjs';
+import { printMessage, printWarning } from '../utils/logger.mjs';
+import { SendDataType } from '../utils/sendDataType.mjs';
+import { tryCatchSync } from '../utils/tryCatch.mjs';
+import { watchStatus } from '../utils/watchStatus.mjs';
 import { fetchSession } from '../webSocket/openF1Api.mjs';
-import { getScheduleByLocation } from './schedule.js';
+import { getScheduleByLocation } from './schedule.mjs';
 
 let latestSession = null;
 let latestAllSessions = null;

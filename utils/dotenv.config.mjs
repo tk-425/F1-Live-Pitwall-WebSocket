@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
-import { envPath } from './envPath.js';
-import { printError } from './logger.js';
+import { envPath } from './envPath.mjs';
+import { printError } from './logger.mjs';
 
 const result = dotenv.config({ path: envPath.path });
 
