@@ -1,4 +1,4 @@
-import { printMessage } from '../utils/logger.js';
+import { printMessage } from '../utils/logger.mjs';
 
 const latestPositionData = new Map();
 

@@ -1,4 +1,4 @@
-import { printWarning } from './logger.js';
+import { printWarning } from './logger.mjs';
 
 export function watchStatus(interval, data, type, updateCallback) {
   setInterval(async () => {

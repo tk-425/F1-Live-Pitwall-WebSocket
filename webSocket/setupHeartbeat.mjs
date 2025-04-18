@@ -1,4 +1,4 @@
-import { printError, printMessage } from '../utils/logger.js';
+import { printError, printMessage } from '../utils/logger.mjs';
 
 export function setupHeartbeat(wss, interval = 30000) {
   // Heartbeat: Ping clients every 30 seconds

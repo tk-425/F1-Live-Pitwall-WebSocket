@@ -1,6 +1,6 @@
-import { drivers } from '../info/info_drivers.js';
-import { getTestLatestPositions } from './testData.js';
-import { getTestLatestInterval } from './testData.js';
+import { drivers } from '../info/info_drivers.mjs';
+import { getTestLatestPositions } from './testData.mjs';
+import { getTestLatestInterval } from './testData.mjs';
 
 // TEST
 export function testMergePositionWithIntervals() {

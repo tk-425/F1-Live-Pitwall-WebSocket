@@ -1,10 +1,10 @@
-import { SendDataType } from '../utils/sendDataType.js';
-import { sendData } from '../webSocket/sendData.js';
-import { getLatestGroupedIntervals } from './groupIntervals.js';
-import { getLatestPositions } from './positions.js';
-import { getLatestSession } from './session.js';
-import { getLatestStints } from './stints.js';
-import { getLatestTeamRadio } from './teamRadio.js';
+import { SendDataType } from '../utils/sendDataType.mjs';
+import { sendData } from '../webSocket/sendData.mjs';
+import { getLatestGroupedIntervals } from './groupIntervals.mjs';
+import { getLatestPositions } from './positions.mjs';
+import { getLatestSession } from './session.mjs';
+import { getLatestStints } from './stints.mjs';
+import { getLatestTeamRadio } from './teamRadio.mjs';
 
 export function sendInitData(ws) {
   const session = getLatestSession();

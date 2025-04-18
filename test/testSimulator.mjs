@@ -2,19 +2,18 @@ import {
   testIntervalsData,
   testStintsData,
   testTeamRadioData,
-} from './testData.js';
+} from './testData.mjs';
 import {
   groupDriversByInterval,
   setLatestGroupedIntervals,
-} from '../data/groupIntervals.js';
-import { testMergePositionWithIntervals } from './testMergeData.js';
-import { broadcastToClient } from '../webSocket/broadcast.js';
-import { getTestLatestSession } from './testData.js';
-import { getTestLatestStints } from './testData.js';
-import { getTestLatestTeamRadio } from './testData.js';
-import { getTestLatestMeeting } from './testData.js';
-import { getScheduleByLocation } from '../data/schedule.js';
-import { printMessage } from '../utils/logger.js';
+} from '../data/groupIntervals.mjs';
+import { testMergePositionWithIntervals } from './testMergeData.mjs';
+import { broadcastToClient } from '../webSocket/broadcast.mjs';
+import { getTestLatestSession } from './testData.mjs';
+import { getTestLatestStints } from './testData.mjs';
+import { getTestLatestTeamRadio } from './testData.mjs';
+import { getTestLatestMeeting } from './testData.mjs';
+import { getScheduleByLocation } from '../data/schedule.mjs';
 
 export function simulateIntervalChange(wss) {
   let toggled = false;

@@ -1,38 +1,38 @@
-import { envConfig } from '../utils/dotenv.config.js';
+import { envConfig } from '../utils/dotenv.config.mjs';
 import { WebSocketServer } from 'ws';
-import { setupHeartbeat } from './setupHeartbeat.js';
-import { setupWebSocketLifecycle } from './setupWebSocketLifecycle.js';
-import { handleClientHandshake } from './handleClientHandshake.js';
+import { setupHeartbeat } from './setupHeartbeat.mjs';
+import { setupWebSocketLifecycle } from './setupWebSocketLifecycle.mjs';
+import { handleClientHandshake } from './handleClientHandshake.mjs';
 import {
   printMessage,
   printError,
   printInfo,
   printWarning,
-} from '../utils/logger.js';
-import { sendInitData } from '../data/sendInitData.js';
-import { getLatestSession } from '../data/session.js';
+} from '../utils/logger.mjs';
+import { sendInitData } from '../data/sendInitData.mjs';
+import { getLatestSession } from '../data/session.mjs';
 import { fetchMeeting } from './openF1Api.mjs';
-import { getLatestMeeting } from '../data/meeting.js';
-import { getLatestStints, updateStints } from '../data/stints.js';
-import { getLatestTeamRadio } from '../data/teamRadio.js';
-import { fetchDriverData } from '../data/driverData.js';
-import { updateInterval } from '../data/intervals.js';
-import { updatePositionsData } from '../data/positions.js';
-import { mergePositionWithIntervals } from '../data/mergeDriverData.js';
+import { getLatestMeeting } from '../data/meeting.mjs';
+import { getLatestStints, updateStints } from '../data/stints.mjs';
+import { getLatestTeamRadio } from '../data/teamRadio.mjs';
+import { fetchDriverData } from '../data/driverData.mjs';
+import { updateInterval } from '../data/intervals.mjs';
+import { updatePositionsData } from '../data/positions.mjs';
+import { mergePositionWithIntervals } from '../data/mergeDriverData.mjs';
 import {
   groupDriversByInterval,
   setLatestGroupedIntervals,
-} from '../data/groupIntervals.js';
-import { broadcastToClient } from './broadcast.js';
+} from '../data/groupIntervals.mjs';
+import { broadcastToClient } from './broadcast.mjs';
 import {
   getScheduleByLocation,
   initScheduleWatcher,
-} from '../data/schedule.js';
+} from '../data/schedule.mjs';
 import {
   handleEmptyIntervals,
   isMergedDataStale,
   isSessionExpired,
-} from '../utils/webSocketUtils.js';
+} from '../utils/webSocketUtils.mjs';
 
 const PORT = envConfig.PORT;
 let previousMeetingKey = null;
