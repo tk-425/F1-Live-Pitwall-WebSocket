@@ -5,8 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "node webSocket/server.js",
-    "dash": "npm --prefix dashboard run dev",
-    "test": "node test/test.js",
     "testServer": "node test/testServer.js"
   },
   "keywords": [],
