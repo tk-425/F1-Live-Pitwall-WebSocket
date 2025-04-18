@@ -1,4 +1,5 @@
-import { envConfig } from '../utils/dotenv.config.mjs';
+import dotenv from 'dotenv';
+dotenv.config();
 import { WebSocketServer } from 'ws';
 import { setupHeartbeat } from './setupHeartbeat.mjs';
 import { setupWebSocketLifecycle } from './setupWebSocketLifecycle.mjs';
@@ -33,11 +34,9 @@ import {
   isMergedDataStale,
   isSessionExpired,
 } from '../utils/webSocketUtils.mjs';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const PORT = process.env.PORT;
+
 let previousMeetingKey = null;
 
 export function createWebSocketServer(server, interval = 4000) {
