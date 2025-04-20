@@ -96,6 +96,7 @@ function startDataUpdater(wss, interval) {
     }
 
     if (!isValidArray(intervals)) {
+      printWarning('No intervals...');
       handleEmptyIntervals(
         wss,
         positions,
@@ -111,13 +112,12 @@ function startDataUpdater(wss, interval) {
     updateInterval(intervals);
     updatePositionsData(positions);
 
-    const mergedPositionsAndIntervals = mergePositionWithIntervals(
-      positions,
-      intervals
-    );
+    const mergedPositionsAndIntervals = mergePositionWithIntervals();
     const groupedIntervals = groupDriversByInterval(
       mergedPositionsAndIntervals
     );
+
+    console.log('POS:', mergedPositionsAndIntervals);
 
     setLatestGroupedIntervals(groupedIntervals);
 
