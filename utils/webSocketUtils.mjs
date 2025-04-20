@@ -53,18 +53,12 @@ export function handleEmptyIntervals(
   setLatestGroupedIntervals([]);
   updatePositionsData(positions);
 
-  const mergedPositionsAndIntervals = mergePositionWithIntervals(positions, []);
-  console.log(
-    'mergePositionWithIntervals result:',
-    mergedPositionsAndIntervals
-  );
-
+  const mergedPositionsAndIntervals = mergePositionWithIntervals();
   const sortedMerged = mergedPositionsAndIntervals
     .slice()
     .sort((a, b) => a.position - b.position);
 
-  const groupedIntervals = []; // ✨ Because intervals are empty here!
-
+  const groupedIntervals = [];
   if (sortedMerged.length === 0) {
     console.warn('⚠️ No positions to broadcast!');
     return;

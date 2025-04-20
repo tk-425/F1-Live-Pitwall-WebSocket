@@ -1,6 +1,11 @@
 import { drivers } from '../info/info_drivers.mjs';
+import { getLatestInterval } from './intervals.mjs';
+import { getLatestPositions } from './positions.mjs';
 
-export function mergePositionWithIntervals(positions, intervals) {
+export function mergePositionWithIntervals() {
+  const positions = getLatestPositions();
+  const intervals = getLatestInterval();
+
   const intervalMap = new Map();
 
   intervals.forEach((interval) => {
@@ -9,8 +14,9 @@ export function mergePositionWithIntervals(positions, intervals) {
 
   const merged = mergePositionIntervalData(positions, intervalMap);
 
-  return merged.sort((a, b) => a.position - b.position);
+  return merged.sort((a, b) => a.position < b.position);
 }
+
 
 function mergePositionIntervalData(positions, intervalMap) {
   return positions.map((position) => {
