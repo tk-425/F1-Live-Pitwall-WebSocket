@@ -33,6 +33,7 @@ import {
 import {
   simulateIntervalChange,
   simulateStintChange,
+  simulateTeamRadioUpdates,
 } from './testSimulator.mjs';
 import {
   isMergedDataStale,
@@ -50,7 +51,7 @@ export function createTestWebSocketServer(server, interval = 10000) {
   // Simulate Test Data
   simulateIntervalChange(wss);
   simulateStintChange(wss);
-  // simulateTeamRadioUpdates(wss);
+  simulateTeamRadioUpdates(wss);
 
   startDataUpdater(wss, interval);
   printInfo(

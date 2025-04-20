@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
+
 import { WebSocketServer } from 'ws';
 import { setupHeartbeat } from './setupHeartbeat.mjs';
 import { setupWebSocketLifecycle } from './setupWebSocketLifecycle.mjs';
@@ -34,9 +35,9 @@ import {
   isMergedDataStale,
   isSessionExpired,
 } from '../utils/webSocketUtils.mjs';
+import { isValidArray } from '../utils/checkArrayError.mjs';
 
 const PORT = process.env.PORT;
-
 let previousMeetingKey = null;
 
 export function createWebSocketServer(server, interval = 4000) {
@@ -94,7 +95,7 @@ function startDataUpdater(wss, interval) {
       return;
     }
 
-    if (!Array.isArray(intervals) || intervals.length === 0) {
+    if (!isValidArray(intervals)) {
       handleEmptyIntervals(
         wss,
         positions,
@@ -110,7 +111,10 @@ function startDataUpdater(wss, interval) {
     updateInterval(intervals);
     updatePositionsData(positions);
 
-    const mergedPositionsAndIntervals = mergePositionWithIntervals();
+    const mergedPositionsAndIntervals = mergePositionWithIntervals(
+      positions,
+      intervals
+    );
     const groupedIntervals = groupDriversByInterval(
       mergedPositionsAndIntervals
     );

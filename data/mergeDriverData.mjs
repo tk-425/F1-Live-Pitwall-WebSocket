@@ -1,12 +1,6 @@
 import { drivers } from '../info/info_drivers.mjs';
-import { getLatestInterval } from './intervals.mjs';
-import { getLatestPositions } from './positions.mjs';
 
-// Merge latest position and interval data into one driver object
-export function mergePositionWithIntervals() {
-  const positions = getLatestPositions();
-  const intervals = getLatestInterval();
-
+export function mergePositionWithIntervals(positions, intervals) {
   const intervalMap = new Map();
 
   intervals.forEach((interval) => {
@@ -35,4 +29,3 @@ function mergePositionIntervalData(positions, intervalMap) {
     };
   });
 }
-

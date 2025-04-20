@@ -4,3 +4,7 @@ export function checkError(array, error, type) {
     return;
   }
 }
+
+export function isValidArray(data) {
+  return Array.isArray(data) && data.length > 0;
+}
