@@ -1,3 +1,4 @@
+import { WebSocket } from 'ws';
 import { setLatestGroupedIntervals } from '../data/groupIntervals.mjs';
 import { mergePositionWithIntervals } from '../data/mergeDriverData.mjs';
 import { updatePositionsData } from '../data/positions.mjs';
@@ -46,24 +47,35 @@ export function handleEmptyIntervals(
   meeting,
   currentSchedule
 ) {
-  printWarning('F1-LiveUpdater returned empty intervals.');
+  console.log('handleEmptyIntervals called!');
+  console.log('positions received in handleEmptyIntervals:', positions);
 
-  // Clear grouped cache
   setLatestGroupedIntervals([]);
-  // Still update positions
   updatePositionsData(positions);
 
-  const mergedPositionsAndIntervals = mergePositionWithIntervals();
+  const mergedPositionsAndIntervals = mergePositionWithIntervals(positions, []);
+  console.log(
+    'mergePositionWithIntervals result:',
+    mergedPositionsAndIntervals
+  );
+
   const sortedMerged = mergedPositionsAndIntervals
     .slice()
     .sort((a, b) => a.position - b.position);
+
+  const groupedIntervals = []; // ✨ Because intervals are empty here!
+
+  if (sortedMerged.length === 0) {
+    console.warn('⚠️ No positions to broadcast!');
+    return;
+  }
 
   wss.clients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN) {
       broadcastAllToClient(client, {
         mergedPositionsAndIntervals,
-        sortedMerged,
-        grouped: [],
+        sortedPosition: sortedMerged,
+        groupedIntervals,
         session,
         stints,
         teamRadio,

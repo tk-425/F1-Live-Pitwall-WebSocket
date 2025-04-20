@@ -16,6 +16,7 @@ import { getStintsByDriverNumber, updateStints } from '../data/stints.mjs';
 import { printError, printMessage, printWarning } from '../utils/logger.mjs';
 import { SendDataType } from '../utils/sendDataType.mjs';
 import { isMergedDataStale } from '../utils/webSocketUtils.mjs';
+import { isValidArray } from '../utils/checkArrayError.mjs';
 
 // Fetch data from the API
 await initMeetingWatcher(5000);
@@ -63,7 +64,7 @@ async function testIntervalsAndPositions(session) {
     return;
   }
 
-  if (!Array.isArray(intervals) || intervals.length === 0) {
+  if (!isValidArray(intervals)) {
     printError('No intervals available.');
     return;
   }
