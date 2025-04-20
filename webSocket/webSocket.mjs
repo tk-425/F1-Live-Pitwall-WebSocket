@@ -117,8 +117,6 @@ function startDataUpdater(wss, interval) {
       mergedPositionsAndIntervals
     );
 
-    console.log('POS:', mergedPositionsAndIntervals);
-
     setLatestGroupedIntervals(groupedIntervals);
 
     if (isMergedDataStale(session, mergedPositionsAndIntervals)) {
