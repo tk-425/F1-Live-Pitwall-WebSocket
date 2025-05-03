@@ -1,3 +1,5 @@
+import { printError, printMessage } from "../utils/logger.mjs";
+
 export function setupWebSocketLifecycle(ws) {
   // Track if the client is alive
   ws.isAlive = true;
@@ -9,11 +11,11 @@ export function setupWebSocketLifecycle(ws) {
 
   // Close the connection when the client disconnects
   ws.on('close', () => {
-    console.log('❌ Client disconnected');
+    printMessage('❌ Client disconnected');
   });
 
   // Error handling for WebSocket client
   ws.on('error', (err) => {
-    console.error('❌ WebSocket client error:', err.message);
+    printError('❌ WebSocket client error:', err.message);
   });
 }
