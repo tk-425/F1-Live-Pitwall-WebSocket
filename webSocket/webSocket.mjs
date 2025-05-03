@@ -16,7 +16,7 @@ import { getLatestSession } from '../data/session.mjs';
 import { fetchMeeting } from './openF1Api.mjs';
 import { getLatestMeeting } from '../data/meeting.mjs';
 import { getLatestStints, updateStints } from '../data/stints.mjs';
-import { getLatestTeamRadio } from '../data/teamRadio.mjs';
+import { getLatestTeamRadio, updateTeamRadio } from '../data/teamRadio.mjs';
 import { fetchDriverData } from '../data/driverData.mjs';
 import { updateInterval } from '../data/intervals.mjs';
 import { updatePositionsData } from '../data/positions.mjs';
@@ -87,6 +87,7 @@ function startDataUpdater(wss, interval) {
     await updateStints();
     const currentSchedule = getScheduleByLocation(session.location);
     const stints = getLatestStints();
+    await updateTeamRadio();
     const teamRadio = getLatestTeamRadio();
     const { intervals, positions, error } = await fetchDriverData();
 
