@@ -47,8 +47,8 @@ export function handleEmptyIntervals(
   meeting,
   currentSchedule
 ) {
-  console.log('handleEmptyIntervals called!');
-  console.log('positions received in handleEmptyIntervals:', positions);
+  printWarning('⚠️ handleEmptyIntervals called!');
+
 
   setLatestGroupedIntervals([]);
   updatePositionsData(positions);
@@ -60,7 +60,7 @@ export function handleEmptyIntervals(
 
   const groupedIntervals = [];
   if (sortedMerged.length === 0) {
-    console.warn('⚠️ No positions to broadcast!');
+    printWarning('⚠️ No positions to broadcast!');
     return;
   }
 
