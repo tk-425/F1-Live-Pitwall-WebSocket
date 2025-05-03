@@ -14,7 +14,6 @@ export async function updateStints() {
   printMessage('🔄 Updating stints...');
 
   const [stints, stintsError] = await tryCatchSync(fetchStints());
-
   checkError(stints, stintsError, SendDataType.STINTS);
 
   for (const entry of stints) {
@@ -22,20 +21,28 @@ export async function updateStints() {
     const existing = latestStints.get(driver_number);
 
     if (!existing) {
+      // First time seeing this driver → store the new stint
       latestStints.set(
         driver_number,
         createDriverStintData(driver_number, [entry])
       );
     } else {
-      const hasStint = existing.stints.some(
-        (s) => s.stint_number === stint_number
-      );
+      // Have we already recorded this stint_number?
+      const idx = existing.stints.findIndex(s => s.stint_number === stint_number);
 
-      if (!hasStint) {
+      if (idx === -1) {
+        // New stint → append and sort
         existing.stints.push(entry);
         existing.stints.sort((a, b) => a.stint_number - b.stint_number);
+      } else {
+        // Same stint_number → merge in any new/updated fields (e.g. compound)
+        existing.stints[idx] = {
+          ...existing.stints[idx],
+          ...entry
+        };
       }
 
+      // Re‑store with updated timestamp and stints array
       latestStints.set(
         driver_number,
         createDriverStintData(driver_number, existing.stints)
