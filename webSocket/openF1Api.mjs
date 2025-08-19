@@ -62,3 +62,7 @@ export async function fetchStints() {
 export async function fetchTeamRadio() {
   return await fetchWithRetry(URLS.TEAM_RADIO);
 }
+
+export async function fetchPit() {
+  return await fetchWithRetry(URLS.PIT);
+}
