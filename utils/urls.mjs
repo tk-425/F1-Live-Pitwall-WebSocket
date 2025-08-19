@@ -10,6 +10,7 @@ const SESSION = `${BASE_URL}/sessions?session_key=latest`;
 const STINTS = `${BASE_URL}/stints?session_key=latest`;
 const TEAM_RADIO = `${BASE_URL}/team_radio?session_key=latest`;
 const MEETING = `${BASE_URL}/meetings?meeting_key=latest`;
+const PIT = `${BASE_URL}/pit?session_key=latest`;
 const SCHEDULE = schedule_2025;
 
 export const URLS = {
@@ -19,5 +20,6 @@ export const URLS = {
   STINTS,
   TEAM_RADIO,
   MEETING,
+  PIT,
   SCHEDULE,
 };
